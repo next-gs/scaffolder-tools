@@ -1,6 +1,10 @@
 = scaffolder-tools
 
-Description goes here.
+Set of tools for manipulating sequence assemblies specified by yaml configuration files.
+
+= List of tools
+
+[scaffold2sequence] Assembles scaffold outputting single fasta sequence
 
 == Note on Patches/Pull Requests
  
