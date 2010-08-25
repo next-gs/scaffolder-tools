@@ -18,7 +18,13 @@ Spec::Runner.configure do |config|
 
   def generate_sequences(count)
     (1..count).to_a.map do |n|
-      Sequence.new("seq#{n}",%w|A T G C A T G C|.sort_by{rand}.to_s)
+      Sequence.new("sequence#{n}",%w|A T G C A T G C|.sort_by{rand}.to_s)
+    end
+  end
+
+  def generate_unresolved(count)
+    (1..count).to_a.map do |n|
+      Sequence.new("unresolved#{n}",'NNNNN')
     end
   end
 
@@ -33,9 +39,13 @@ Spec::Runner.configure do |config|
     file
   end
 
-  def write_scaffold_file(*sequences)
-    scaffold = sequences.flatten.inject(Array.new) do |array,sequence|
-      array << {'sequence' => {'source' => sequence.definition}}
+  def write_scaffold_file(*entries)
+    scaffold = entries.flatten.inject(Array.new) do |array,entry|
+      if entry.definition =~ /sequence/
+        array << {'sequence' => {'source' => entry.definition}}
+      else
+        array << {'unresolved' => {'length' => entry.sequence.length}}
+      end
     end
     file = Tempfile.new("scaffold").path
     File.open(file,'w'){|tmp| tmp.print(YAML.dump(scaffold))}
