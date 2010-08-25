@@ -8,6 +8,7 @@ class Scaffold2sequence
     scaffold = Scaffolder.new(YAML.load(File.read(args[0])),args[1])
     sequence = scaffold.inject(String.new) do |string,entry|
       string << entry.sequence
+      string
     end
     hash = Digest::SHA1.hexdigest(sequence)
     print Bio::Sequence.new(sequence).output(:fasta,:header => hash)
