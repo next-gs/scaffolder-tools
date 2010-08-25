@@ -10,8 +10,10 @@ begin
     gem.email = "mail@michaelbarton.me.uk"
     gem.homepage = "http://github.com/michaelbarton/scaffolder-tools"
     gem.authors = ["Michael Barton"]
+    gem.add_dependency "scaffolder", ">= 0.2.0"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "yard", ">= 0"
+    gem.add_development_dependency "steak", ">= 0.3.8"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
