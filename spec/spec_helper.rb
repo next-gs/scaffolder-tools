@@ -28,6 +28,16 @@ Spec::Runner.configure do |config|
     end
   end
 
+  def generate_scaffold(*entries)
+    entries.flatten.inject(Array.new) do |array,entry|
+      if entry.definition =~ /sequence/
+        array << {'sequence' => {'source' => entry.definition}}
+      else
+        array << {'unresolved' => {'length' => entry.sequence.length}}
+      end
+    end
+  end
+
   def write_sequence_file(*sequences)
     file = Tempfile.new("sequence").path
     File.open(file,'w') do |tmp|
@@ -39,14 +49,7 @@ Spec::Runner.configure do |config|
     file
   end
 
-  def write_scaffold_file(*entries)
-    scaffold = entries.flatten.inject(Array.new) do |array,entry|
-      if entry.definition =~ /sequence/
-        array << {'sequence' => {'source' => entry.definition}}
-      else
-        array << {'unresolved' => {'length' => entry.sequence.length}}
-      end
-    end
+  def write_scaffold_file(scaffold)
     file = Tempfile.new("scaffold").path
     File.open(file,'w'){|tmp| tmp.print(YAML.dump(scaffold))}
     file
