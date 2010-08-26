@@ -11,15 +11,15 @@ scaffold2sequence(1) -- assemble yaml scaffold file into fasta sequence
 
 ## FILES
 
-**Scaffold2sequence** requires two files to assemble a sequence. The **scaffold-file** specifies the positions of individual sequences in the assembly (see scaffolder-format(5)). The **sequence-file** contains the necessary source fasta formatted sequences specified in the scaffold file.
+**Scaffold2sequence** requires two files to assemble a sequence. The **scaffold-file** specifies the positions of individual sequences in the assembly (see scaffolder-format(5)). The **sequence-file** contains the necessary fasta sequences specified in the scaffold file.
 
 ## OPTIONS
 
   * `-d`, `--definition`=[<definition>]:
-    Definition line added at the top of the assembled sequence. The default is to use no definition line and use the the hash of the sequence.
+    Definition line added at the top of the assembled sequence. The default is to use the hash of the sequence as the definition.
 
-  * `--[no-]sequence-hash`:
-    Append the SHA1 hash of the assembled sequence to the definition line.
+  * `--no-sequence-hash`:
+    Do not append the SHA1 hash of the assembled sequence to the definition line.
 
 ## EXAMPLES
 

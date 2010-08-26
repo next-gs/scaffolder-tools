@@ -2,6 +2,10 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
+require 'configliere'
 require 'scaffold_to_sequence'
 
-exit Scaffold2sequence.run(ARGV)
+Settings.use :commandline
+Settings.resolve!
+
+exit Scaffold2sequence.run(ARGV,Settings)

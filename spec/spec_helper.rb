@@ -55,12 +55,13 @@ Spec::Runner.configure do |config|
     file
   end
 
-  def scaffold2sequence(scaffold_file,sequence_file)
-    s = StringIO.new `./bin/scaffold2sequence #{scaffold_file} #{sequence_file}`
+  def scaffold2sequence(scaffold_file,sequence_file,*flags)
+    cmd = "./bin/scaffold2sequence #{flags} #{scaffold_file} #{sequence_file}"
+    s = StringIO.new(`#{cmd}`)
     if $? == 0
       return Bio::FlatFile.open(Bio::FastaFormat, s).first
     else
-      raise RuntimeError.new("Error executing scaffolder2sequence\n#{s}")
+      raise RuntimeError.new("Error executing scaffolder2sequence\n#{s.string}")
     end
   end
 

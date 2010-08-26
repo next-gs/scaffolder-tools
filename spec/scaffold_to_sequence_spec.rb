@@ -54,7 +54,19 @@ feature "scaffolder2sequence" do
     out_sequence.definition.should == Digest::SHA1.hexdigest(expected)
   end
 
+  scenario "specifying the definition line" do
+    sequence = generate_sequences(1).first
+
+    seq_file  = write_sequence_file(sequence)
+    scaf_file = write_scaffold_file(generate_scaffold(sequence))
+    out_sequence = scaffold2sequence(scaf_file,seq_file,"--definition=seq")
+
+    out_sequence.seq.should == sequence.sequence
+    out_sequence.definition.should == "seq " + Digest::SHA1.hexdigest(sequence.sequence)
+  end
+
   #TODO: Throw errors if required files don't exist
+  #TODO: Throw errors if files are not in correct format
   #TODO: Test exit codes returned
 
 end

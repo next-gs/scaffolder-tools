@@ -4,14 +4,20 @@ require 'scaffolder'
 
 class Scaffold2sequence
 
-  def self.run(args)
-    scaffold = Scaffolder.new(YAML.load(File.read(args[0])),args[1])
+  def self.run(args,settings)
+    sequence_file = args.pop
+    scaffold_file = args.pop
+
+    scaffold = Scaffolder.new(YAML.load(File.read(scaffold_file)),sequence_file)
     sequence = scaffold.inject(String.new) do |string,entry|
       string << entry.sequence
-      string
     end
-    hash = Digest::SHA1.hexdigest(sequence)
-    print Bio::Sequence.new(sequence).output(:fasta,:header => hash)
+
+    header = String.new
+    header << settings[:definition] + " " if settings[:definition]
+    header << Digest::SHA1.hexdigest(sequence)
+
+    print Bio::Sequence.new(sequence).output(:fasta,:header => header)
     0
   end
 
