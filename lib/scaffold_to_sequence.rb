@@ -15,7 +15,9 @@ class Scaffold2sequence
 
     header = String.new
     header << settings[:definition] + " " if settings[:definition]
-    header << Digest::SHA1.hexdigest(sequence)
+    unless settings[:no][:sequence][:hash]
+      header << Digest::SHA1.hexdigest(sequence)
+    end
 
     Bio::Sequence.new(sequence).output(:fasta,:header => header)
   end

@@ -65,6 +65,18 @@ feature "scaffolder2sequence" do
     out_sequence.definition.should == "seq " + Digest::SHA1.hexdigest(sequence.sequence)
   end
 
+  scenario "specifying no hash" do
+    sequence = generate_sequences(1).first
+
+    seq_file  = write_sequence_file(sequence)
+    scaf_file = write_scaffold_file(generate_scaffold(sequence))
+    out_sequence = scaffold2sequence(scaf_file,seq_file,
+                                     "--no-sequence-hash --definition=seq")
+
+    out_sequence.seq.should == sequence.sequence
+    out_sequence.definition.should == "seq"
+  end
+
   #TODO: Throw errors if required files don't exist
   #TODO: Throw errors if files are not in correct format
   #TODO: Test exit codes returned

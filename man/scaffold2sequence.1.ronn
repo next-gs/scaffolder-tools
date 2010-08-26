@@ -15,7 +15,7 @@ scaffold2sequence(1) -- assemble yaml scaffold file into fasta sequence
 
 ## OPTIONS
 
-  * `-d`, `--definition`=[<definition>]:
+  * `--definition`=[<definition>]:
     Definition line added at the top of the assembled sequence. The default is to use the hash of the sequence as the definition.
 
   * `--no-sequence-hash`:

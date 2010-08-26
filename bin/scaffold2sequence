@@ -6,6 +6,7 @@ require 'configliere'
 require 'scaffold_to_sequence'
 
 Settings.use :commandline
+Settings({:no=>{:sequence=>{:hash=>false}}})
 Settings.resolve!
 
 print Scaffold2sequence.run(ARGV,Settings)
