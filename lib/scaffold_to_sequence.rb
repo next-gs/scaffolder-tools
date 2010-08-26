@@ -17,8 +17,7 @@ class Scaffold2sequence
     header << settings[:definition] + " " if settings[:definition]
     header << Digest::SHA1.hexdigest(sequence)
 
-    print Bio::Sequence.new(sequence).output(:fasta,:header => header)
-    0
+    Bio::Sequence.new(sequence).output(:fasta,:header => header)
   end
 
 end

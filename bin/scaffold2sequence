@@ -8,4 +8,5 @@ require 'scaffold_to_sequence'
 Settings.use :commandline
 Settings.resolve!
 
-exit Scaffold2sequence.run(ARGV,Settings)
+print Scaffold2sequence.run(ARGV,Settings)
+exit 0
