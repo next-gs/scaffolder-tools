@@ -9,10 +9,14 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'spec'
 require 'spec/autorun'
+require 'mocha'
 require 'steak'
-require 'factory_girl'
+
+require 'scaffold_validate'
 
 Spec::Runner.configure do |config|
+
+  config.mock_with :mocha
 
   Sequence = Struct.new(:definition,:sequence)
 
@@ -62,6 +66,16 @@ Spec::Runner.configure do |config|
       return Bio::FlatFile.open(Bio::FastaFormat, s).first
     else
       raise RuntimeError.new("Error executing scaffolder2sequence\n#{s.string}")
+    end
+  end
+
+  def scaffold_validate(scaffold_file,sequence_file,*flags)
+    cmd = "./bin/scaffold-validate #{flags} #{scaffold_file} #{sequence_file}"
+    out = StringIO.new(`#{cmd}`)
+    if $? == 0
+      out.string
+    else
+      raise RuntimeError.new("Error executing scaffold-validate\n#{out.string}")
     end
   end
 

@@ -12,6 +12,7 @@ begin
     gem.authors = ["Michael Barton"]
     gem.add_dependency "scaffolder", ">= 0.2.0"
     gem.add_dependency "configliere", ">= 0.1.1"
+    gem.add_development_dependency "mocha", "= 0.9.8"
     gem.add_development_dependency "rspec", ">= 1.2.9"
     gem.add_development_dependency "yard", ">= 0"
     gem.add_development_dependency "steak", ">= 0.3.8"
