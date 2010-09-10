@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Barton"]
-  s.date = %q{2010-09-01}
+  s.date = %q{2010-09-10}
   s.description = %q{Binaries to use genome scaffolds}
   s.email = %q{mail@michaelbarton.me.uk}
   s.executables = ["scaffold-validate", "scaffold2sequence"]
@@ -52,14 +52,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<scaffolder>, ["= 0.2.2"])
+      s.add_runtime_dependency(%q<scaffolder>, ["= 0.2.5"])
       s.add_runtime_dependency(%q<configliere>, [">= 0.1.1"])
       s.add_development_dependency(%q<mocha>, ["= 0.9.8"])
       s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
       s.add_development_dependency(%q<yard>, [">= 0"])
       s.add_development_dependency(%q<steak>, [">= 0.3.8"])
     else
-      s.add_dependency(%q<scaffolder>, ["= 0.2.2"])
+      s.add_dependency(%q<scaffolder>, ["= 0.2.5"])
       s.add_dependency(%q<configliere>, [">= 0.1.1"])
       s.add_dependency(%q<mocha>, ["= 0.9.8"])
       s.add_dependency(%q<rspec>, [">= 1.2.9"])
@@ -67,7 +67,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<steak>, [">= 0.3.8"])
     end
   else
-    s.add_dependency(%q<scaffolder>, ["= 0.2.2"])
+    s.add_dependency(%q<scaffolder>, ["= 0.2.5"])
     s.add_dependency(%q<configliere>, [">= 0.1.1"])
     s.add_dependency(%q<mocha>, ["= 0.9.8"])
     s.add_dependency(%q<rspec>, [">= 1.2.9"])

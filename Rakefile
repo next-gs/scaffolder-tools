@@ -10,7 +10,7 @@ begin
     gem.email = "mail@michaelbarton.me.uk"
     gem.homepage = "http://github.com/michaelbarton/scaffolder-tools"
     gem.authors = ["Michael Barton"]
-    gem.add_dependency "scaffolder", "= 0.2.2"
+    gem.add_dependency "scaffolder", "= 0.2.5"
     gem.add_dependency "configliere", ">= 0.1.1"
     gem.add_development_dependency "mocha", "= 0.9.8"
     gem.add_development_dependency "rspec", ">= 1.2.9"
