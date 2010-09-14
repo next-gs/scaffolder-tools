@@ -13,6 +13,7 @@ require 'mocha'
 require 'steak'
 
 require 'scaffold_validate'
+require 'scaffold_statistics'
 
 Spec::Runner.configure do |config|
 
