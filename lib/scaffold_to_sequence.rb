@@ -9,17 +9,24 @@ class Scaffold2sequence
     scaffold_file = args.pop
 
     scaffold = Scaffolder.new(YAML.load(File.read(scaffold_file)),sequence_file)
+
+    s = sequence(scaffold)
+    Bio::Sequence.new(s).output(:fasta,:header => header(s,settings))
+  end
+
+  def self.sequence(scaffold)
     sequence = scaffold.inject(String.new) do |string,entry|
       string << entry.sequence
     end
+  end
 
+  def self.header(sequence,options={})
     header = String.new
-    header << settings[:definition] + " " if settings[:definition]
-    unless settings[:no][:sequence][:hash]
+    header << options[:definition] + " " if options[:definition]
+    unless options[:no][:sequence][:hash]
       header << Digest::SHA1.hexdigest(sequence)
     end
-
-    Bio::Sequence.new(sequence).output(:fasta,:header => header)
+    header
   end
 
 end
