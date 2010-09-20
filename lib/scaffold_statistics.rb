@@ -39,7 +39,8 @@ class ScaffoldStatistics
   private
 
   def build
-    Scaffold2sequence.sequence @scaffold
+    @build ||= Scaffold2sequence.sequence @scaffold
+    @build
   end
 
   def sequences
