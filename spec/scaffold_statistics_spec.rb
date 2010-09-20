@@ -202,4 +202,22 @@ context ScaffoldStatistics do
     end
   end
 
+  context "determining the length of the scaffold sequence" do
+
+    it "should return 0 when there is no sequence" do
+      stats.sequence_length.should == 0
+    end
+
+    it "should return correctly when there is one sequence" do
+      @scaffold << sequence(:sequence => 'A' * 5)
+      stats.sequence_length.should == 5
+    end
+
+    it "should return correctly when there are multiple sequences" do
+      @scaffold << sequence(:sequence => 'A' * 5)
+      @scaffold << sequence(:sequence => 'A' * 10)
+      stats.sequence_length.should == 15
+    end
+
+  end
 end
