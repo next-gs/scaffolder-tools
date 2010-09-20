@@ -33,7 +33,7 @@ class ScaffoldStatistics
   end
 
   def gap_percent
-    gap_base_pair.to_f / build.length unless build.length == 0
+    (gap_base_pair.to_f / build.length) * 100 unless build.length == 0
   end
 
   private

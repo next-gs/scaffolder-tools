@@ -91,13 +91,13 @@ context ScaffoldStatistics do
 
     it "should return correctly when there is a sequence with 1 gap" do
       @scaffold << sequence_length_10_with_gap_length(1)
-      stats.gap_percent.should == 0.1
+      stats.gap_percent.should == 10.0
     end
 
     it "should return correctly when there are multiple sequence with gaps" do
       @scaffold << sequence_length_10_with_gap_length(1)
       @scaffold << sequence_length_10_with_gap_length(2)
-      stats.gap_percent.should == 0.15
+      stats.gap_percent.should == 15.0
     end
 
   end
