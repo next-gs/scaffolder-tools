@@ -181,6 +181,11 @@ context ScaffoldStatistics do
 
   context "determining the GC content of the sequence" do
 
+    it "should return a float" do
+      @scaffold << sequence(:sequence => 'GGGGA')
+      stats.gc_content.class.should == Float
+    end
+
     it "should return 0 when there is no sequence" do
       stats.gc_content.should == 0
     end

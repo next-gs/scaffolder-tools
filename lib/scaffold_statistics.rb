@@ -8,7 +8,7 @@ class ScaffoldStatistics
   end
 
   def gc_content
-    Bio::Sequence::NA.new(build).gc_content
+    Bio::Sequence::NA.new(build).gc_content.to_f
   end
 
   def sequence_sizes
