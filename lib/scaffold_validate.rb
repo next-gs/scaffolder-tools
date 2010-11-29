@@ -17,10 +17,10 @@ class ScaffoldValidate
       ""
     else
       YAML.dump(errors.inject(Hash.new) do |hash,sequence|
-        hash[sequence.name] ||= []
+        hash[sequence.source] ||= []
         self.class.sequence_errors(sequence).each do |error|
           error.each do |insert|
-            hash[sequence.name] << {:start => insert.start,:stop => insert.stop}
+            hash[sequence.source] << {:open => insert.open,:close => insert.close}
           end
         end
         hash

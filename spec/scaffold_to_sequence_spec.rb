@@ -45,7 +45,7 @@ feature "scaffolder2sequence" do
     seq_file  = write_sequence_file(sequence,insert)
     scaffold = generate_scaffold(sequence)
     scaffold.first['sequence']['inserts'] = [
-      {'source' => insert.definition, 'start' => 4, 'stop' => 5}
+      {'source' => insert.definition, 'open' => 4, 'close' => 5}
     ]
     scaf_file = write_scaffold_file(scaffold)
     out_sequence = scaffold2sequence(scaf_file,seq_file)
