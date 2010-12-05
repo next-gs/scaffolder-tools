@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-context ScaffoldStatistics do
+describe ScaffoldStatistics do
 
   before(:each){ @scaffold = [] }
 
@@ -17,7 +17,7 @@ context ScaffoldStatistics do
     sequence(options.merge({:sequence => ("A" * (10 - n) + 'N' * n)}))
   end
 
-  context "determining the total number of inserts" do
+  describe "determining the total number of inserts" do
 
     def sequence_with_inserts(n)
       sequence = stub(:entry_type => :sequence, :inserts => stub(:length => n))
@@ -49,7 +49,7 @@ context ScaffoldStatistics do
 
   end
 
-  context "determining the total base pair of gaps in a scaffold" do
+  describe "determining the total base pair of gaps in a scaffold" do
 
     it "should return 0 when there are no sequences" do
       stats.gap_base_pair.should == 0
@@ -78,7 +78,7 @@ context ScaffoldStatistics do
 
   end
 
-  context "determining the percentage base pair of gaps in a scaffold" do
+  describe "determining the percentage base pair of gaps in a scaffold" do
 
     it "should return nil when there are no sequences" do
       stats.gap_percent.should == nil
@@ -102,7 +102,7 @@ context ScaffoldStatistics do
 
   end
 
-  context "determining the number of gaps in the scaffold" do
+  describe "determining the number of gaps in the scaffold" do
 
     it "should return nil when there are no sequences" do
       stats.gap_count.should == 0
@@ -132,7 +132,7 @@ context ScaffoldStatistics do
     end
   end
 
-  context "determining the number of times each sequence is used" do
+  describe "determining the number of times each sequence is used" do
 
     it "should return an empty hash when there are no sequences" do
       stats.sequence_count.should == {}
@@ -157,7 +157,7 @@ context ScaffoldStatistics do
 
   end
 
-  context "determining the range of sequence sizes" do
+  describe "determining the range of sequence sizes" do
 
     it "should return nil when there are no sequences" do
       stats.sequence_sizes[:smallest].should == nil
@@ -179,7 +179,7 @@ context ScaffoldStatistics do
 
   end
 
-  context "determining the GC content of the sequence" do
+  describe "determining the GC content of the sequence" do
 
     it "should return a float" do
       @scaffold << sequence(:sequence => 'GGGGA')
@@ -202,7 +202,7 @@ context ScaffoldStatistics do
     end
   end
 
-  context "determining the length of the scaffold sequence" do
+  describe "determining the length of the scaffold sequence" do
 
     it "should return 0 when there is no sequence" do
       stats.sequence_length.should == 0

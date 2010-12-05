@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-context ScaffoldValidate do
+describe ScaffoldValidate do
 
-  context "comparing inserts for overlaps using inserts_overlap?" do
+  describe "comparing inserts for overlaps using inserts_overlap?" do
 
     before(:all) do
       @insert = stub(:position => 5..10)
@@ -22,7 +22,7 @@ context ScaffoldValidate do
 
   end
 
-  context "testing a sequence for insert overlaps using sequence_errors" do
+  describe "testing a sequence for insert overlaps using sequence_errors" do
 
     before(:all) do
       # Use integers for mocks because they can be easily sorted
@@ -44,7 +44,7 @@ context ScaffoldValidate do
 
   end
 
-  context "validating entries in a scaffold using the errors method" do
+  describe "validating entries in a scaffold using the errors method" do
 
     before(:each) do
       @valid        = stub(:entry_type => :sequence)
@@ -69,7 +69,7 @@ context ScaffoldValidate do
 
   end
 
-  context "printing errors using the errors method" do
+  describe "printing errors using the errors method" do
 
     before(:each) do
       @scaffold = ScaffoldValidate.new(nil)
