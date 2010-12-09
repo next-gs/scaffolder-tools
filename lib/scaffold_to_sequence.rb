@@ -8,7 +8,9 @@ class Scaffold2sequence
     sequence_file = args.pop
     scaffold_file = args.pop
 
-    scaffold = Scaffolder.new(YAML.load(File.read(scaffold_file)),sequence_file)
+    scaffold = Scaffolder.new(
+      YAML.load(File.read(scaffold_file)),
+      sequence_file)
 
     s = sequence(scaffold)
     Bio::Sequence.new(s).output(:fasta,:header => header(s,settings))

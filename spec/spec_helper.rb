@@ -7,6 +7,8 @@ require 'tempfile'
 require 'digest/sha1'
 require 'mocha'
 require 'steak'
+require 'bio'
+require 'scaffolder/test/helpers'
 
 require 'scaffold_validate'
 require 'scaffold_statistics'
@@ -18,17 +20,12 @@ end
 RSpec.configure do |config|
   config.mock_with :mocha
 
-  Sequence = Struct.new(:definition,:sequence)
+  include Scaffolder::Test::Helpers
 
   def generate_sequences(count)
     (1..count).to_a.map do |n|
-      Sequence.new("sequence#{n}",%w|A T G C A T G C|.sort_by{rand}.to_s)
-    end
-  end
-
-  def generate_unresolved(count)
-    (1..count).to_a.map do |n|
-      Sequence.new("unresolved#{n}",'NNNNN')
+      { :name => "sequence#{n}",
+        :nucleotides => %w|A T G C A T G C|.sort_by{rand}.to_s }
     end
   end
 
@@ -40,23 +37,6 @@ RSpec.configure do |config|
         array << {'unresolved' => {'length' => entry.sequence.length}}
       end
     end
-  end
-
-  def write_sequence_file(*sequences)
-    file = Tempfile.new("sequence").path
-    File.open(file,'w') do |tmp|
-      sequences.flatten.each do |sequence|
-        seq = Bio::Sequence.new(sequence.sequence)
-        tmp.print(seq.output(:fasta,:header => sequence.definition))
-      end
-    end
-    file
-  end
-
-  def write_scaffold_file(scaffold)
-    file = Tempfile.new("scaffold").path
-    File.open(file,'w'){|tmp| tmp.print(YAML.dump(scaffold))}
-    file
   end
 
   def scaffold2sequence(scaffold_file,sequence_file,*flags)

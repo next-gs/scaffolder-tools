@@ -14,4 +14,6 @@ group :development do
   gem "steak",       "~> 1.0"
   gem "mocha",       "~> 0.9"
   gem "yard",        "~> 0.6"
+
+  gem "scaffolder-test-helpers"
 end
