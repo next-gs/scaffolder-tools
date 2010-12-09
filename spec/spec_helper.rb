@@ -11,7 +11,6 @@ require 'bio'
 require 'scaffolder/test/helpers'
 
 require 'scaffold_validate'
-require 'scaffold_statistics'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each do |f|
   require File.expand_path(f)
