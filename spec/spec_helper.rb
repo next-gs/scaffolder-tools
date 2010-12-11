@@ -6,9 +6,11 @@ require 'tempfile'
 require 'mocha'
 require 'bio'
 require 'scaffolder/test/helpers'
+require 'scaffolder'
 
 require 'scaffolder/tool'
 require 'scaffold_validate'
+require 'scaffold_to_sequence'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each do |f|
   require File.expand_path(f)

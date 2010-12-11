@@ -1,31 +1,27 @@
 require 'yaml'
 require 'digest/sha1'
 require 'scaffolder'
+require 'scaffolder/tool'
 
-class Scaffold2sequence
+class Scaffold2sequence < Scaffolder::Tool
 
-  def self.run(args,settings)
-    sequence_file = args.pop
-    scaffold_file = args.pop
-
-    scaffold = Scaffolder.new(
-      YAML.load(File.read(scaffold_file)),
-      sequence_file)
-
+  def execute
     s = sequence(scaffold)
-    Bio::Sequence.new(s).output(:fasta,:header => header(s,settings))
+    Bio::Sequence.new(s).output(:fasta,:header => header(s,@settings))
   end
 
-  def self.sequence(scaffold)
+  private
+
+  def sequence(scaffold)
     sequence = scaffold.inject(String.new) do |string,entry|
       string << entry.sequence
     end
   end
 
-  def self.header(sequence,options={})
+  def header(sequence,opts={})
     header = String.new
-    header << options[:definition] + " " if options[:definition]
-    unless options[:no][:sequence][:hash]
+    header << opts[:definition] + " " if opts[:definition]
+    unless opts[:no] && opts[:no][:sequence] && opts[:no][:sequence][:hash]
       header << Digest::SHA1.hexdigest(sequence)
     end
     header
