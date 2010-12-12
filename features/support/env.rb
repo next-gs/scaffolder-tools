@@ -1,3 +1,5 @@
+require 'open3'
+
 require 'bundler'
 begin
   Bundler.setup(:default, :development)
@@ -9,3 +11,8 @@ end
 
 require 'rspec/expectations'
 require 'scaffolder/test/cucumber_steps'
+require 'aruba/cucumber'
+
+Before do
+  @dirs = ["/tmp"]
+end

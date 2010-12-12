@@ -1,4 +1,5 @@
 require 'scaffolder'
+require 'ftools'
 
 class Scaffolder::Tool
 
@@ -17,16 +18,19 @@ class Scaffolder::Tool
       message = execute
     rescue Exception => e
       err.puts("Error. #{e.message}")
-      exit 1
+      exit(1)
     else
       out.puts(message)
-      exit 0
+      exit(0)
     end
   end
 
   def scaffold
     unless File.exists?(@sequence_file)
       raise ArgumentError.new("Sequence file not found: #{@sequence_file}")
+    end
+    if File.zero?(@sequence_file)
+      raise ArgumentError.new("Sequence file is empty: #{@sequence_file}")
     end
     Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
   end

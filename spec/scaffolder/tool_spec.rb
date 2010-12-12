@@ -66,6 +66,14 @@ describe Scaffolder::Tool do
         "Sequence file not found: #{missing_file}")
     end
 
+    it "should raise an error if the sequence file is empty" do
+      empty_file = Tempfile.new('empty_sequence_file').path
+      FileUtils.touch(empty_file)
+      tool = Scaffolder::Tool.new([@scaffold_file,empty_file],@settings)
+      lambda{ tool.scaffold }.should raise_error(ArgumentError,
+        "Sequence file is empty: #{empty_file}")
+    end
+
   end
 
 end

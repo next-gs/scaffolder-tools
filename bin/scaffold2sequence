@@ -9,5 +9,4 @@ Settings.use :commandline
 Settings({:no=>{:sequence=>{:hash=>false}}})
 Settings.resolve!
 
-print Scaffold2sequence.run(ARGV,Settings)
-exit 0
+Scaffold2sequence.new(ARGV,Settings).run
