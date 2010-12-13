@@ -2,6 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe ScaffoldValidate do
 
+  it "should inherit from Scaffolder::Tool" do
+    described_class.superclass.should == Scaffolder::Tool
+  end
+
   describe "comparing inserts for overlaps using inserts_overlap?" do
 
     before(:all) do

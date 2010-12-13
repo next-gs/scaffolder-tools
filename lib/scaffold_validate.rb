@@ -1,7 +1,7 @@
 require 'yaml'
 require 'scaffolder'
 
-class ScaffoldValidate
+class ScaffoldValidate < Scaffolder::Tool
 
   def initialize(scaffold)
     @scaffold = scaffold
