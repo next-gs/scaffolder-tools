@@ -38,16 +38,6 @@ RSpec.configure do |config|
     end
   end
 
-  def scaffold2sequence(scaffold_file,sequence_file,*flags)
-    cmd = "./bin/scaffold2sequence #{flags} #{scaffold_file} #{sequence_file}"
-    s = StringIO.new(`#{cmd}`)
-    if $? == 0
-      return Bio::FlatFile.open(Bio::FastaFormat, s).first
-    else
-      raise RuntimeError.new("Error executing scaffolder2sequence\n#{s.string}")
-    end
-  end
-
   def scaffold_validate(scaffold_file,sequence_file,*flags)
     cmd = "./bin/scaffold-validate #{flags} #{scaffold_file} #{sequence_file}"
     out = StringIO.new(`#{cmd}`)
