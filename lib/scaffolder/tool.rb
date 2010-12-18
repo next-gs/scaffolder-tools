@@ -1,5 +1,5 @@
 require 'scaffolder'
-require 'ftools'
+#require 'ftools'
 
 class Scaffolder::Tool
 
@@ -29,10 +29,15 @@ class Scaffolder::Tool
     unless File.exists?(@sequence_file)
       raise ArgumentError.new("Sequence file not found: #{@sequence_file}")
     end
-    if File.zero?(@sequence_file)
+    if File.size(@sequence_file) == 0
       raise ArgumentError.new("Sequence file is empty: #{@sequence_file}")
     end
-    Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
+    if File.size(@scaffold_file) == 0
+      raise ArgumentError.new("Scaffold file is empty: #{@scaffold_file}")
+    end
+    Scaffolder.new(
+      YAML.load(File.open(@scaffold_file,'r'){|f| f.read }),
+      @sequence_file)
   end
 
 end

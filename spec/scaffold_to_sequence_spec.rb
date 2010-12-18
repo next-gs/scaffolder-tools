@@ -8,17 +8,19 @@ describe Scaffold2sequence do
 
   describe "execution when correctly instantiated" do
 
-    subject do
-      scaffold_file,sequence_file = scaffold_and_sequence([{
-        'name' => 'seq1', 'nucleotides' => 'ATGC'}])
+    before(:all) do
+      entries = [{:name => 'seq1', :nucleotides => 'ATGC'}]
+
+      scaffold_file = write_scaffold_file(entries)
+      sequence_file = write_sequence_file(entries)
       settings = Hash.new
 
       tool = Scaffold2sequence.new([scaffold_file,sequence_file],settings)
-      StringIO.new(tool.execute)
+      @output = StringIO.new(tool.execute)
     end
 
     it "should return the expected sequence" do
-      Bio::FlatFile.auto(subject).first.seq.should == 'ATGC'
+      Bio::FlatFile.auto(@output).first.seq.should == 'ATGC'
     end
 
   end
