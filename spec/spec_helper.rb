@@ -22,6 +22,16 @@ RSpec.configure do |config|
 
   include Scaffolder::Test::Helpers
 
+  def mock_command_line_settings(scaffold_file = mock, sequence_file = mock)
+    settings = mock
+
+    settings.stubs(:rest).returns([scaffold_file,sequence_file])
+    settings.stubs(:sequence_file).returns(sequence_file)
+    settings.stubs(:scaffold_file).returns(scaffold_file)
+
+    settings
+  end
+
   def generate_sequences(count)
     (1..count).to_a.map do |n|
       { :name => "sequence#{n}",
