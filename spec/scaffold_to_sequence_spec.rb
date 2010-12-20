@@ -13,8 +13,8 @@ describe Scaffold2sequence do
 
       scaffold_file = write_scaffold_file(entries)
       sequence_file = write_sequence_file(entries)
-      settings = Hash.new
-      settings.stubs(:rest).returns([scaffold_file,sequence_file])
+      settings = mock_command_line_settings(scaffold_file,sequence_file,{
+        :definition => nil,:no => nil})
 
       tool = Scaffold2sequence.new(settings)
       @output = StringIO.new(tool.execute)

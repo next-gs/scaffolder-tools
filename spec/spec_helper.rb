@@ -22,12 +22,16 @@ RSpec.configure do |config|
 
   include Scaffolder::Test::Helpers
 
-  def mock_command_line_settings(scaffold_file = mock, sequence_file = mock)
+  def mock_command_line_settings(scaf_file = mock, seq_file = mock, hash_args={})
     settings = mock
 
-    settings.stubs(:rest).returns([scaffold_file,sequence_file])
-    settings.stubs(:sequence_file).returns(sequence_file)
-    settings.stubs(:scaffold_file).returns(scaffold_file)
+    settings.stubs(:rest).returns([scaf_file,seq_file])
+    settings.stubs(:sequence_file).returns(seq_file)
+    settings.stubs(:scaffold_file).returns(scaf_file)
+
+    hash_args.each do |key,value|
+      settings.expects(:[]).with(key).returns(value)
+    end
 
     settings
   end
