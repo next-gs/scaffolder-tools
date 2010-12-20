@@ -1,9 +1,9 @@
 Feature: The scaffolder-to-sequence binary
   In order to generate a fasta sequence of a genome scaffold
   A user can use the scaffolder binary
-  to generate a fasta sequence of a scaffold
+  to generate a fasta sequence from a scaffold and sequence file
 
-  Scenario: A simple scaffold file with one sequence
+  Scenario: Generating fasta sequence for a simple scaffold
     Given a file named "sequence.fna" with:
       """
       >seq
@@ -20,7 +20,7 @@ Feature: The scaffolder-to-sequence binary
     Then the exit status should be 0
     And the stdout should contain "ATGGC"
 
-  Scenario: A scaffold file with a missing sequence file
+  Scenario: The sequence file specified does not exist
     Given a file named "scaffold.yml" with:
       """
       ---
@@ -32,7 +32,7 @@ Feature: The scaffolder-to-sequence binary
     Then the exit status should be 1
     And the stderr should contain "Error. Sequence file not found:"
 
-  Scenario: A sequence file with missing sequence
+  Scenario: One of the sequences specified in the scaffold is missing
     Given a file named "sequence.fna" with:
       """
       >seq1
@@ -52,7 +52,7 @@ Feature: The scaffolder-to-sequence binary
     Then the exit status should be 1
     And the stderr should contain "Error. Unknown sequence: seq2"
 
-  Scenario: A scaffold file with missing sequence
+  Scenario: The sequence file doesn't contain any sequences
     Given an empty file named "sequence.fna"
     Given a file named "scaffold.yml" with:
       """
