@@ -57,39 +57,46 @@ describe ScaffoldValidate do
       ScaffoldValidate.stubs(:sequence_errors).with(@invalid).returns([nil])
     end
 
+    subject do
+      ScaffoldValidate.new(mock_command_line_settings)
+    end
+
     it "should return an empty array when scaffold is valid" do
-      ScaffoldValidate.new([@valid,@valid]).errors.empty?.should be_true
+      subject.expects(:scaffold).returns([@valid,@valid])
+      subject.errors.should be_empty
     end
 
     it "should return invalid entries when scaffold is invalid" do
-      ScaffoldValidate.new([@invalid,@valid]).errors.should == [@invalid]
+      subject.expects(:scaffold).returns([@invalid,@valid])
+      subject.errors.should == [@invalid]
     end
 
     it "should ignore entries which are not sequences" do
-      @not_sequence = stub(:entry_type => :other)
-      ScaffoldValidate.new([@valid,@not_sequence]).errors.empty?.should be_true
-      ScaffoldValidate.new([@invalid,@not_sequence]).errors.should == [@invalid]
+      @non_sequence = stub(:entry_type => :other)
+      subject.expects(:scaffold).returns([@invalid,@valid,@non_sequence])
+      subject.errors.should == [@invalid]
     end
 
   end
 
   describe "printing errors using the errors method" do
 
-    before(:each) do
-      @scaffold = ScaffoldValidate.new(nil)
+    subject do
+      ScaffoldValidate.new(mock_command_line_settings)
     end
 
     it "should return an empty string when scaffold is valid" do
-      @scaffold.stubs(:errors).returns([])
-      @scaffold.print_errors.should == ""
+      subject.expects(:errors).returns([])
+      subject.print_errors.should == ""
     end
 
     it "should return a yaml list of errors when scaffold is invalid" do
       sequence = stub(:source => :seq1)
-      @scaffold.stubs(:errors).returns([sequence])
+      subject.stubs(:errors).returns([sequence])
       ScaffoldValidate.stubs(:sequence_errors).with(sequence).returns(
         [[stub(:open => 1,:close => 2)]])
-      YAML.load(@scaffold.print_errors).should == {:seq1 => [{
+
+      YAML.load(subject.print_errors).should == {:seq1 => [{
         :open => 1, :close => 2}]}
     end
 

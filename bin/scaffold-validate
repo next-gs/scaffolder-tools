@@ -2,8 +2,10 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
-require 'scaffolder'
+require 'configliere'
 require 'scaffold_validate'
 
-print ScaffoldValidate.run(ARGV[0],ARGV[1])
-exit 0
+Settings.use :commandline
+Settings.resolve!
+
+ScaffoldValidate.new(Settings).run
