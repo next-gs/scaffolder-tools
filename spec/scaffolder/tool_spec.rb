@@ -97,6 +97,17 @@ describe Scaffolder::Tool do
         "Sequence file is empty: #{@empty_file}")
     end
 
+    it "should raise an error if the scaffold file is missing" do
+      tool = Scaffolder::Tool.new([@missing_file,@sequence_file],@settings)
+      lambda{ tool.scaffold }.should raise_error(ArgumentError,
+        "Scaffold file not found: #{@missing_file}")
+    end
+
+    it "should raise an error if the scaffold file is empty" do
+      tool = Scaffolder::Tool.new([@empty_file,@sequence_file],@settings)
+      lambda{ tool.scaffold }.should raise_error(ArgumentError,
+        "Scaffold file is empty: #{@empty_file}")
+    end
   end
 
   describe "creating the scaffold with the scaffold method" do

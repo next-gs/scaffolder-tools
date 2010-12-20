@@ -26,6 +26,9 @@ class Scaffolder::Tool
   end
 
   def scaffold
+    unless File.exists?(@scaffold_file)
+      raise ArgumentError.new("Scaffold file not found: #{@scaffold_file}")
+    end
     unless File.exists?(@sequence_file)
       raise ArgumentError.new("Sequence file not found: #{@sequence_file}")
     end
