@@ -6,9 +6,9 @@ class Scaffolder::Tool
   attr :sequence_file
   attr :settings
 
-  def initialize(args,settings)
-    @scaffold_file = args.shift
-    @sequence_file = args.shift
+  def initialize(settings)
+    @scaffold_file = settings.rest.first
+    @sequence_file = settings.rest.last
     @settings = settings
   end
 

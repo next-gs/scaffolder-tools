@@ -2,29 +2,34 @@ require File.join(File.dirname(__FILE__),'..','spec_helper')
 
 describe Scaffolder::Tool do
 
+  def simple_mock_settings
+    scaffold_file = mock
+    sequence_file = mock
+
+    settings = mock
+    settings.stubs(:rest).returns([scaffold_file,sequence_file])
+    settings
+  end
+
   describe "initialisation with attributes" do
 
     before(:all) do
-      @scaffold_file = mock
-      @sequence_file = mock
-      @settings = mock
+      @settings = simple_mock_settings
     end
 
     subject do
-      Scaffolder::Tool.new([@scaffold_file,@sequence_file],@settings)
+      Scaffolder::Tool.new(@settings)
     end
 
-    its(:scaffold_file){ should ==  @scaffold_file }
-    its(:sequence_file){ should ==  @sequence_file }
+    its(:scaffold_file){ should ==  @settings.rest.first }
+    its(:sequence_file){ should ==  @settings.rest.last }
     its(:settings){ should ==  @settings }
   end
 
   describe "the run method" do
 
     before(:all) do
-      @scaffold_file = mock
-      @sequence_file = mock
-      @settings = mock
+      @settings = simple_mock_settings
     end
 
     before(:each) do
@@ -34,7 +39,7 @@ describe Scaffolder::Tool do
     end
 
     subject do
-      Scaffolder::Tool.new([@scaffold_file,@sequence_file],@settings)
+      Scaffolder::Tool.new(@settings)
     end
 
     it "should print to standard out when there are no errors" do
@@ -86,25 +91,29 @@ describe Scaffolder::Tool do
     end
 
     it "should raise an error if the sequence file is missing" do
-      tool = Scaffolder::Tool.new([@scaffold_file,@missing_file],@settings)
+      @settings.stubs(:rest).returns([@scaffold_file,@missing_file])
+      tool = Scaffolder::Tool.new(@settings)
       lambda{ tool.scaffold }.should raise_error(ArgumentError,
         "Sequence file not found: #{@missing_file}")
     end
 
     it "should raise an error if the sequence file is empty" do
-      tool = Scaffolder::Tool.new([@scaffold_file,@empty_file],@settings)
+      @settings.stubs(:rest).returns([@scaffold_file,@empty_file])
+      tool = Scaffolder::Tool.new(@settings)
       lambda{ tool.scaffold }.should raise_error(ArgumentError,
         "Sequence file is empty: #{@empty_file}")
     end
 
     it "should raise an error if the scaffold file is missing" do
-      tool = Scaffolder::Tool.new([@missing_file,@sequence_file],@settings)
+      @settings.stubs(:rest).returns([@missing_file,@sequence_file])
+      tool = Scaffolder::Tool.new(@settings)
       lambda{ tool.scaffold }.should raise_error(ArgumentError,
         "Scaffold file not found: #{@missing_file}")
     end
 
     it "should raise an error if the scaffold file is empty" do
-      tool = Scaffolder::Tool.new([@empty_file,@sequence_file],@settings)
+      @settings.stubs(:rest).returns([@empty_file,@sequence_file])
+      tool = Scaffolder::Tool.new(@settings)
       lambda{ tool.scaffold }.should raise_error(ArgumentError,
         "Scaffold file is empty: #{@empty_file}")
     end
@@ -119,7 +128,9 @@ describe Scaffolder::Tool do
       @sequence_file = File.new('sequence','w').path
       write_scaffold_file(entries,@scaffold_file)
       write_sequence_file(entries,@sequence_file)
+
       @settings = Hash.new
+      @settings.stubs(:rest).returns([@scaffold_file,@sequence_file])
     end
 
     after(:each) do
@@ -127,7 +138,7 @@ describe Scaffolder::Tool do
     end
 
     subject do
-      Scaffolder::Tool.new([@scaffold_file,@sequence_file],@settings)
+      Scaffolder::Tool.new(@settings)
     end
 
     it "should produce the expected sequence scaffold" do

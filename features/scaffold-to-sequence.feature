@@ -45,26 +45,6 @@ Feature: The scaffolder-to-sequence binary
     Then the exit status should be 1
     And the stderr should contain "Error. Sequence file is empty"
 
-  Scenario: One of the sequences specified in the scaffold is missing
-    Given a file named "sequence.fna" with:
-      """
-      >seq1
-      ATGGC
-      """
-    Given a file named "scaffold.yml" with:
-      """
-      ---
-        -
-          sequence:
-            source: "seq1"
-        -
-          sequence:
-            source: "seq2"
-      """
-    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna"
-    Then the exit status should be 1
-    And the stderr should contain "Error. Unknown sequence: seq2"
-
   Scenario: The scaffold file specified does not exist
     Given a file named "sequence.fna" with:
       """
@@ -85,3 +65,59 @@ Feature: The scaffolder-to-sequence binary
     When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Scaffold file is empty"
+
+  Scenario: One of the sequences specified in the scaffold is missing
+    Given a file named "sequence.fna" with:
+      """
+      >seq1
+      ATGGC
+      """
+    Given a file named "scaffold.yml" with:
+      """
+      ---
+        -
+          sequence:
+            source: "seq1"
+        -
+          sequence:
+            source: "seq2"
+      """
+    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna"
+    Then the exit status should be 1
+    And the stderr should contain "Error. Unknown sequence: seq2"
+
+  Scenario: Using the definition argument before the file arguments
+    Given a file named "sequence.fna" with:
+      """
+      >seq
+      ATGGC
+      """
+    Given a file named "scaffold.yml" with:
+      """
+      ---
+        -
+          sequence:
+            source: "seq"
+      """
+    When I call "scaffold2sequence" with arguments "--definition='name' scaffold.yml sequence.fna"
+    Then the exit status should be 0
+    And the stdout should contain "ATGGC"
+    And the stdout should contain ">name"
+
+  Scenario: Using the definition argument after the file arguments
+    Given a file named "sequence.fna" with:
+      """
+      >seq
+      ATGGC
+      """
+    Given a file named "scaffold.yml" with:
+      """
+      ---
+        -
+          sequence:
+            source: "seq"
+      """
+    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna --definition='name'"
+    Then the exit status should be 0
+    And the stdout should contain "ATGGC"
+    And the stdout should contain ">name"

@@ -14,8 +14,9 @@ describe Scaffold2sequence do
       scaffold_file = write_scaffold_file(entries)
       sequence_file = write_sequence_file(entries)
       settings = Hash.new
+      settings.stubs(:rest).returns([scaffold_file,sequence_file])
 
-      tool = Scaffold2sequence.new([scaffold_file,sequence_file],settings)
+      tool = Scaffold2sequence.new(settings)
       @output = StringIO.new(tool.execute)
     end
 
