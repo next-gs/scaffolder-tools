@@ -121,3 +121,37 @@ Feature: The scaffolder-to-sequence binary
     Then the exit status should be 0
     And the stdout should contain "ATGGC"
     And the stdout should contain ">name"
+
+  Scenario: Using the argument --no-sequence-hash
+    Given a file named "sequence.fna" with:
+      """
+      >seq
+      ATGGC
+      """
+    Given a file named "scaffold.yml" with:
+      """
+      ---
+        -
+          sequence:
+            source: "seq"
+      """
+    When I call "scaffold2sequence" with arguments "--no-sequence-hash scaffold.yml sequence.fna"
+    Then the exit status should be 0
+    And the stdout should contain ">\nATGGC"
+
+  Scenario: Using the arguments --no-sequence-hash and --definition
+    Given a file named "sequence.fna" with:
+      """
+      >seq
+      ATGGC
+      """
+    Given a file named "scaffold.yml" with:
+      """
+      ---
+        -
+          sequence:
+            source: "seq"
+      """
+      When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna --no-sequence-hash --definition='name'"
+    Then the exit status should be 0
+    And the stdout should contain ">name \nATGGC"
