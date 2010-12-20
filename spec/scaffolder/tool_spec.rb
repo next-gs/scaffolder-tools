@@ -40,6 +40,13 @@ describe Scaffolder::Tool do
       @out.string.should == @message
     end
 
+    it "should print nothing to standard out when there no error and no output" do
+      subject.expects(:execute).returns(nil)
+      lambda{ subject.run(@out,@err) }.should raise_error
+      @err.string.should == ""
+      @out.string.should == ""
+    end
+
     it "should give a zero exit code when there are no errors" do
       subject.expects(:execute).returns(@message)
       lambda{ subject.run(@out,@err) }.should exit_with_code(0)
