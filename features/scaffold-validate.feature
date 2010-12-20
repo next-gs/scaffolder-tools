@@ -68,3 +68,22 @@ Feature: The scaffold-validate binary
     When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Unknown sequence: seq2"
+
+  Scenario: Validating a scaffold with no overlapping inserts
+    Given a file named "sequence.fna" with:
+      """
+      >seq
+      ATGGC
+      """
+    Given a file named "scaffold.yml" with:
+      """
+      ---
+        -
+          sequence:
+            source: "seq"
+      """
+    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    Then the exit status should be 0
+    And the stdout should contain exactly:
+    """
+    """

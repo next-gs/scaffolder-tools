@@ -5,18 +5,7 @@ require 'scaffolder/tool'
 class ScaffoldValidate < Scaffolder::Tool
 
   def execute
-    scaffold
-  end
-
-  def errors
-    sequences = scaffold.select{|i| i.entry_type == :sequence}
-    sequences.reject{|i| self.class.sequence_errors(i).empty? }
-  end
-
-  def print_errors
-    if errors.empty?
-      ""
-    else
+    unless errors.empty?
       YAML.dump(errors.inject(Hash.new) do |hash,sequence|
         hash[sequence.source] ||= []
         self.class.sequence_errors(sequence).each do |error|
@@ -27,6 +16,11 @@ class ScaffoldValidate < Scaffolder::Tool
         hash
       end)
     end
+  end
+
+  def errors
+    sequences = scaffold.select{|i| i.entry_type == :sequence}
+    sequences.reject{|i| self.class.sequence_errors(i).empty? }
   end
 
   def self.inserts_overlap?(a,b)
