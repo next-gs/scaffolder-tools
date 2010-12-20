@@ -99,4 +99,32 @@ describe Scaffolder::Tool do
 
   end
 
+  describe "creating the scaffold with the scaffold method" do
+
+    before(:each) do
+      entries = [{:name => 'seq1', :nucleotides => 'ATGC'}]
+
+      @scaffold_file = File.new('scaffold','w').path
+      @sequence_file = File.new('sequence','w').path
+      write_scaffold_file(entries,@scaffold_file)
+      write_sequence_file(entries,@sequence_file)
+      @settings = Hash.new
+    end
+
+    after(:each) do
+      File.delete @scaffold_file, @sequence_file
+    end
+
+    subject do
+      Scaffolder::Tool.new([@scaffold_file,@sequence_file],@settings)
+    end
+
+    it "should produce the expected sequence scaffold" do
+      subject.scaffold.length.should == 1
+      subject.scaffold.first.entry_type.should == :sequence
+      subject.scaffold.first.sequence.should == 'ATGC'
+    end
+
+  end
+
 end
