@@ -1,5 +1,4 @@
 require 'scaffolder'
-#require 'ftools'
 
 class Scaffolder::Tool
 
@@ -26,21 +25,16 @@ class Scaffolder::Tool
   end
 
   def scaffold
-    unless File.exists?(@scaffold_file)
-      raise ArgumentError.new("Scaffold file not found: #{@scaffold_file}")
+    {:Scaffold => @scaffold_file, :Sequence => @sequence_file}.each do |name,file|
+      unless File.exists?(file)
+        raise ArgumentError.new("#{name} file not found: #{file}")
+      end
+      if File.size(file) == 0
+        raise ArgumentError.new("#{name} file is empty: #{file}")
+      end
     end
-    unless File.exists?(@sequence_file)
-      raise ArgumentError.new("Sequence file not found: #{@sequence_file}")
-    end
-    if File.size(@sequence_file) == 0
-      raise ArgumentError.new("Sequence file is empty: #{@sequence_file}")
-    end
-    if File.size(@scaffold_file) == 0
-      raise ArgumentError.new("Scaffold file is empty: #{@scaffold_file}")
-    end
-    Scaffolder.new(
-      YAML.load(File.open(@scaffold_file,'r'){|f| f.read }),
-      @sequence_file)
+
+    Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
   end
 
 end
