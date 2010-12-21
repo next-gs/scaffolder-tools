@@ -4,7 +4,7 @@ describe Scaffolder::Tool do
 
   describe "initialisation with attributes" do
 
-    before(:all) do
+    before(:each) do
       @settings = mock_command_line_settings
     end
 
@@ -38,6 +38,13 @@ describe Scaffolder::Tool do
       lambda{ subject.run(@out,@err) }.should raise_error
       @err.string.should == ""
       @out.string.should == @message
+    end
+
+    it "should print nothing to standard out when there no error and no output" do
+      subject.expects(:execute).returns(nil)
+      lambda{ subject.run(@out,@err) }.should raise_error
+      @err.string.should == ""
+      @out.string.should == ""
     end
 
     it "should give a zero exit code when there are no errors" do

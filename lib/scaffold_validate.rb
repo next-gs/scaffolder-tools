@@ -1,36 +1,33 @@
 require 'yaml'
 require 'scaffolder'
+require 'scaffolder/tool'
 
 class ScaffoldValidate < Scaffolder::Tool
 
-  def initialize(scaffold)
-    @scaffold = scaffold
+  def execute
+    bad_sequences = errors
+    return if bad_sequences.empty?
+
+    output = bad_sequences.inject(Array.new) do |array, sequence|
+      self.class.sequence_errors(sequence).each do |overlaps|
+        array << {'sequence-insert-overlap' => {
+          'source' => sequence.source,
+          'inserts' => overlaps.map do |overlap|
+            {'open'  => overlap.open,
+            'close'  => overlap.close,
+            'source' => overlap.source}
+          end
+        }}
+      end
+      array
+    end
+
+    YAML.dump(output)
   end
 
   def errors
-    sequences = @scaffold.select{|i| i.entry_type == :sequence}
+    sequences = scaffold.select{|i| i.entry_type == :sequence}
     sequences.reject{|i| self.class.sequence_errors(i).empty? }
-  end
-
-  def print_errors
-    if errors.empty?
-      ""
-    else
-      YAML.dump(errors.inject(Hash.new) do |hash,sequence|
-        hash[sequence.source] ||= []
-        self.class.sequence_errors(sequence).each do |error|
-          error.each do |insert|
-            hash[sequence.source] << {:open => insert.open,:close => insert.close}
-          end
-        end
-        hash
-      end)
-    end
-  end
-
-  def self.run(scaffold_file,sequence_file)
-    scaffold = Scaffolder.new(YAML.load(File.read(scaffold_file)),sequence_file)
-    self.new(scaffold).print_errors
   end
 
   def self.inserts_overlap?(a,b)

@@ -19,7 +19,7 @@ class Scaffolder::Tool
       err.puts("Error. #{e.message}")
       exit(1)
     else
-      out.puts(message)
+      out.puts(message) if message
       exit(0)
     end
   end
