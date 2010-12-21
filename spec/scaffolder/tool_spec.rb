@@ -4,7 +4,7 @@ describe Scaffolder::Tool do
 
   describe "initialisation with attributes" do
 
-    before(:all) do
+    before(:each) do
       @settings = mock_command_line_settings
     end
 
