@@ -5,17 +5,24 @@ require 'scaffolder/tool'
 class ScaffoldValidate < Scaffolder::Tool
 
   def execute
-    unless errors.empty?
-      YAML.dump(errors.inject(Hash.new) do |hash,sequence|
-        hash[sequence.source] ||= []
-        self.class.sequence_errors(sequence).each do |error|
-          error.each do |insert|
-            hash[sequence.source] << {:open => insert.open,:close => insert.close}
+    bad_sequences = errors
+    return if bad_sequences.empty?
+
+    output = bad_sequences.inject(Array.new) do |array, sequence|
+      self.class.sequence_errors(sequence).each do |overlaps|
+        array << {'sequence-insert-overlap' => {
+          'source' => sequence.source,
+          'inserts' => overlaps.map do |overlap|
+            {'open'  => overlap.open,
+            'close'  => overlap.close,
+            'source' => overlap.source}
           end
-        end
-        hash
-      end)
+        }}
+      end
+      array
     end
+
+    YAML.dump(output)
   end
 
   def errors

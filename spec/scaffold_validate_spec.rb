@@ -105,7 +105,7 @@ describe ScaffoldValidate do
       sequence = stub(:source => :seq1)
       validate.stubs(:errors).returns([sequence])
       described_class.stubs(:sequence_errors).with(sequence).returns(
-        [[stub(:open => 1,:close => 2)]])
+        [[stub(:open => 1,:close => 2, :source => 'some_insert')]])
 
       validate
     end
@@ -115,13 +115,46 @@ describe ScaffoldValidate do
     end
 
     it "should return a string" do
-      subject.execute.should_not be_nil
-      subject.execute.class.should == String
+      subject.execute.should be_instance_of(String)
     end
 
-    it "should return a yaml list of regions with overlapping inserts" do
-      output = YAML.load(subject.execute)
-      output.should == {:seq1 => [{:open => 1, :close => 2}]}
+    it "should be an array when YAML is parsed" do
+      lambda{ YAML.load(subject.execute) }.should_not raise_error
+      YAML.load(subject.execute).should be_instance_of(Array)
+    end
+
+  end
+
+  describe "the attributes of the error data" do
+
+    subject do
+      validate = ScaffoldValidate.new(mock_command_line_settings)
+      @err = {:open => 1,:close => 2,:source => 'some_insert'}
+
+      sequence = stub(:source => 'seq1')
+      validate.stubs(:errors).returns([sequence])
+      described_class.stubs(:sequence_errors).with(sequence).returns([[stub(@err)]])
+
+      YAML.load(validate.execute).first['sequence-insert-overlap']
+    end
+
+    it "should name each overlap entry 'sequence-insert-overlap'" do
+      subject.should_not be_nil
+    end
+
+    it "should provide the name of overlap containing sequence" do
+      subject['source'].should == 'seq1'
+    end
+
+    it "should provide an array of the overlapping inserts" do
+      subject['inserts'].should be_instance_of(Array)
+    end
+
+    it "should provide the coordinates of the overlapping inserts" do
+      error = subject['inserts'].first
+      error['open'].should   == @err[:open]
+      error['close'].should  == @err[:close]
+      error['source'].should == @err[:source]
     end
 
   end
