@@ -100,17 +100,28 @@ describe ScaffoldValidate do
   describe "returning errors using the errors method" do
 
     subject do
-      ScaffoldValidate.new(mock_command_line_settings)
-    end
+      validate = ScaffoldValidate.new(mock_command_line_settings)
 
-    it "should return a yaml list of errors when scaffold is invalid" do
       sequence = stub(:source => :seq1)
-      subject.stubs(:errors).returns([sequence])
-      ScaffoldValidate.stubs(:sequence_errors).with(sequence).returns(
+      validate.stubs(:errors).returns([sequence])
+      described_class.stubs(:sequence_errors).with(sequence).returns(
         [[stub(:open => 1,:close => 2)]])
 
-      YAML.load(subject.execute).should == {:seq1 => [{
-        :open => 1, :close => 2}]}
+      validate
+    end
+
+    it "should not raise an error" do
+      lambda{ subject.execute }.should_not raise_error
+    end
+
+    it "should return a string" do
+      subject.execute.should_not be_nil
+      subject.execute.class.should == String
+    end
+
+    it "should return a yaml list of regions with overlapping inserts" do
+      output = YAML.load(subject.execute)
+      output.should == {:seq1 => [{:open => 1, :close => 2}]}
     end
 
   end
