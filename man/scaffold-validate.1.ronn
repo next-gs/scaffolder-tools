@@ -7,7 +7,10 @@ scaffold-validate(1) -- Test scaffold for overlapping inserts
 
 ## DESCRIPTION
 
-**scaffold-validate** examines the **scaffold-file** to detect overlapping sequence inserts. Overlapping sequence inserts may unexpected inserts when scaffolding the sequence and should be avoided. Overlapping inserts are returned as a yaml format list.
+**scaffold-validate** examines the **scaffold-file** to detect overlapping
+sequence inserts. Overlapping sequence inserts may lead to unexpected sequence
+output for the scaffold when and should be avoided.  A list of any overlapping
+inserts is returned in a yaml format.
 
 ## EXAMPLES
 
@@ -15,8 +18,11 @@ scaffold-validate(1) -- Test scaffold for overlapping inserts
 
 ## BUGS
 
-**Scaffold-valdiate** is written in Ruby and depends on scaffolder and BioRuby.
+**Scaffold-validate** is written in Ruby and depends on the scaffolder, BioRuby
+and configliere gems. See the Gemfile in the scaffolder-tools gem install
+directory for version details.
 
 ## COPYRIGHT
 
-Scaffold-valdiate is Copyright (C) 2010 Michael Barton <http://michaelbarton.me.uk>
+Scaffold-valdiate is Copyright (C) 2010 Michael Barton
+<http://michaelbarton.me.uk>
