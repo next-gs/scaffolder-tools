@@ -1,17 +1,19 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
+require 'tempfile'
+require 'ostruct'
+
 require 'rspec'
 require 'fakefs/safe'
-require 'tempfile'
 require 'mocha'
 require 'bio'
 require 'scaffolder/test/helpers'
 require 'scaffolder'
 
 require 'scaffolder/tool'
-require 'scaffold_validate'
-require 'scaffold_to_sequence'
+require 'scaffolder/tool/sequence'
+require 'scaffolder/tool/validate'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each do |f|
   require File.expand_path(f)

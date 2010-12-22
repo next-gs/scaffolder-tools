@@ -6,6 +6,19 @@ class Scaffolder::Tool
   attr :sequence_file
   attr :settings
 
+  class << self
+
+    def [](type)
+      const_get(type.capitalize)
+    end
+
+    def determine_tool(settings)
+      tool_class = self[settings.rest.shift]
+      [tool_class,settings]
+    end
+
+  end
+
   def initialize(settings)
     @scaffold_file = settings.rest.first
     @sequence_file = settings.rest.last
@@ -37,4 +50,6 @@ class Scaffolder::Tool
     Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
   end
 
+  require 'scaffolder/tool/sequence'
+  require 'scaffolder/tool/validate'
 end

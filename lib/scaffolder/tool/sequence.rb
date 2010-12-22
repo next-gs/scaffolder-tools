@@ -3,7 +3,7 @@ require 'digest/sha1'
 require 'scaffolder'
 require 'scaffolder/tool'
 
-class Scaffold2sequence < Scaffolder::Tool
+class Scaffolder::Tool::Sequence < Scaffolder::Tool
 
   def execute
     s = sequence(scaffold)

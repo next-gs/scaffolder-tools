@@ -1,6 +1,6 @@
-Feature: The scaffolder-to-sequence binary
+Feature: The scaffolder-sequence binary
   In order to generate a fasta sequence of a genome scaffold
-  A user can use the scaffolder binary
+  A user can use the scaffolder binary with argument sequence
   to generate a fasta sequence from a scaffold and sequence file
 
   Scenario: Generating fasta sequence for a simple scaffold
@@ -16,7 +16,7 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain "ATGGC"
 
@@ -28,7 +28,7 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold2sequence" with arguments "scaffold.yml missing_file"
+    When I call "scaffolder" with arguments "sequence scaffold.yml missing_file"
     Then the exit status should be 1
     And the stderr should contain "Error. Sequence file not found:"
 
@@ -41,7 +41,7 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq1"
       """
-    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Sequence file is empty"
 
@@ -51,7 +51,7 @@ Feature: The scaffolder-to-sequence binary
       >seq
       ATGGC
       """
-    When I call "scaffold2sequence" with arguments "missing_file sequence.fna"
+    When I call "scaffolder" with arguments "sequence missing_file sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Scaffold file not found:"
 
@@ -62,7 +62,7 @@ Feature: The scaffolder-to-sequence binary
       >seq
       ATGGC
       """
-    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Scaffold file is empty"
 
@@ -82,7 +82,7 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq2"
       """
-    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Unknown sequence: seq2"
 
@@ -99,7 +99,7 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold2sequence" with arguments "--definition='name' scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence --definition='name' scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain "ATGGC"
     And the stdout should contain ">name"
@@ -117,7 +117,7 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna --definition='name'"
+    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --definition='name'"
     Then the exit status should be 0
     And the stdout should contain "ATGGC"
     And the stdout should contain ">name"
@@ -135,7 +135,7 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold2sequence" with arguments "--no-sequence-hash scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence --no-sequence-hash scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain ">\nATGGC"
 
@@ -152,6 +152,6 @@ Feature: The scaffolder-to-sequence binary
           sequence:
             source: "seq"
       """
-      When I call "scaffold2sequence" with arguments "scaffold.yml sequence.fna --no-sequence-hash --definition='name'"
+      When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --no-sequence-hash --definition='name'"
     Then the exit status should be 0
     And the stdout should contain ">name \nATGGC"

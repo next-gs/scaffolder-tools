@@ -1,6 +1,6 @@
-Feature: The scaffold-validate binary
+Feature: The scaffolder-validate binary
   In order to test inserts are being correctly added to a scaffold
-  A user can use the scaffolder binary
+  A user can use the scaffolder binary with the argument validate
   to test that inserts are correctly inserted
 
   Scenario: The sequence file specified does not exist
@@ -11,7 +11,7 @@ Feature: The scaffold-validate binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml missing_file"
+    When I call "scaffolder" with arguments "validate scaffold.yml missing_file"
     Then the exit status should be 1
     And the stderr should contain "Error. Sequence file not found:"
 
@@ -24,7 +24,7 @@ Feature: The scaffold-validate binary
           sequence:
             source: "seq1"
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Sequence file is empty"
 
@@ -34,7 +34,7 @@ Feature: The scaffold-validate binary
       >seq
       ATGGC
       """
-    When I call "scaffold-validate" with arguments "missing_file sequence.fna"
+    When I call "scaffolder" with arguments "validate missing_file sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Scaffold file not found:"
 
@@ -45,7 +45,7 @@ Feature: The scaffold-validate binary
       >seq
       ATGGC
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Scaffold file is empty"
 
@@ -65,7 +65,7 @@ Feature: The scaffold-validate binary
           sequence:
             source: "seq2"
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 1
     And the stderr should contain "Error. Unknown sequence: seq2"
 
@@ -82,7 +82,7 @@ Feature: The scaffold-validate binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
@@ -101,7 +101,7 @@ Feature: The scaffold-validate binary
           sequence:
             source: "seq"
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
@@ -134,7 +134,7 @@ Feature: The scaffold-validate binary
               source: ins2
 
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
@@ -167,7 +167,7 @@ Feature: The scaffold-validate binary
               source: ins2
 
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
@@ -218,7 +218,7 @@ Feature: The scaffold-validate binary
               close: 9
               source: ins2
       """
-    When I call "scaffold-validate" with arguments "scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 0
     And the stdout should contain exactly:
     """

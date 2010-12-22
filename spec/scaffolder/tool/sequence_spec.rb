@@ -1,6 +1,6 @@
-require File.join(File.dirname(__FILE__),'spec_helper')
+require File.expand_path(File.join(File.dirname(__FILE__),'..','..','spec_helper'))
 
-describe Scaffold2sequence do
+describe Scaffolder::Tool::Sequence do
 
   it "should inherit from Scaffolder::Tool" do
     described_class.superclass.should == Scaffolder::Tool
@@ -19,7 +19,7 @@ describe Scaffold2sequence do
       settings = mock_command_line_settings(@scaffold_file,@sequence_file,{
         :definition => nil,:no => nil})
 
-      tool = Scaffold2sequence.new(settings)
+      tool = described_class.new(settings)
       @output = StringIO.new(tool.execute)
     end
 
