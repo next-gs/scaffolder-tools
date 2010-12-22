@@ -3,10 +3,10 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
 require 'configliere'
-require 'scaffold_to_sequence'
+require 'scaffolder/tool'
 
 Settings.use :commandline
-Settings({:no=>{:sequence=>{:hash=>false}}})
 Settings.resolve!
 
-Scaffold2sequence.new(Settings).run
+tool, arguments = Scaffolder::Tool.determine_tool(Settings)
+tool.new(arguments).run

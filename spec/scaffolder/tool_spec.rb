@@ -2,6 +2,30 @@ require File.join(File.dirname(__FILE__),'..','spec_helper')
 
 describe Scaffolder::Tool do
 
+  describe "determining the tool type" do
+
+    before(:each) do
+      @args = OpenStruct.new({ :rest => %W|type arg1 arg2| })
+      @tool = Class.new
+      described_class.const_set('Type',@tool)
+    end
+
+    after(:each) do
+      described_class.send(:remove_const,'Type')
+    end
+
+    it "return corresponding tool subclass when requested" do
+      described_class['type'].should == @tool
+    end
+
+    it "should fetch the right tool class when requested" do
+      tool, args = described_class.determine_tool(@args)
+      tool.should == @tool
+      args.rest.should == @args.rest[-2..-1]
+    end
+
+  end
+
   describe "initialisation with attributes" do
 
     before(:each) do
