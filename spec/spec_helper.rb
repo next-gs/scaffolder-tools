@@ -10,8 +10,8 @@ require 'scaffolder/test/helpers'
 require 'scaffolder'
 
 require 'scaffolder/tool'
-require 'scaffold_validate'
-require 'scaffold_to_sequence'
+require 'scaffolder/tool/sequence'
+require 'scaffolder/tool/validate'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each do |f|
   require File.expand_path(f)

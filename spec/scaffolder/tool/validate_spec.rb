@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require File.expand_path(File.join(File.dirname(__FILE__),'..','..','spec_helper'))
 
-describe ScaffoldValidate do
+describe Scaffolder::Tool::Validate do
 
   it "should inherit from Scaffolder::Tool" do
     described_class.superclass.should == Scaffolder::Tool
@@ -58,7 +58,7 @@ describe ScaffoldValidate do
     end
 
     subject do
-      ScaffoldValidate.new(mock_command_line_settings)
+      described_class.new(mock_command_line_settings)
     end
 
     it "should return an empty array when scaffold is valid" do
@@ -82,7 +82,7 @@ describe ScaffoldValidate do
   describe "scaffold validation with no overlapping inserts" do
 
     subject do
-      validate = ScaffoldValidate.new(mock_command_line_settings)
+      validate = described_class.new(mock_command_line_settings)
       validate.stubs(:errors).returns([])
       validate
     end
@@ -100,7 +100,7 @@ describe ScaffoldValidate do
   describe "returning errors using the errors method" do
 
     subject do
-      validate = ScaffoldValidate.new(mock_command_line_settings)
+      validate = described_class.new(mock_command_line_settings)
 
       sequence = stub(:source => :seq1)
       validate.stubs(:errors).returns([sequence])
@@ -128,7 +128,7 @@ describe ScaffoldValidate do
   describe "the attributes of the error data" do
 
     subject do
-      validate = ScaffoldValidate.new(mock_command_line_settings)
+      validate = described_class.new(mock_command_line_settings)
       @err = {:open => 1,:close => 2,:source => 'some_insert'}
 
       sequence = stub(:source => 'seq1')

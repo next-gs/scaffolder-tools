@@ -2,7 +2,7 @@ require 'yaml'
 require 'scaffolder'
 require 'scaffolder/tool'
 
-class ScaffoldValidate < Scaffolder::Tool
+class Scaffolder::Tool::Validate < Scaffolder::Tool
 
   def execute
     bad_sequences = errors
