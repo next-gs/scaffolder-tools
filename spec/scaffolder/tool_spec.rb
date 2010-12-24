@@ -18,6 +18,10 @@ describe Scaffolder::Tool do
       described_class['type'].should == @tool
     end
 
+    it "return the default class when passed nil" do
+      described_class[nil].should == Scaffolder::Tool::Default
+    end
+
     it "should fetch the right tool class when requested" do
       tool, args = described_class.determine_tool(@args)
       tool.should == @tool

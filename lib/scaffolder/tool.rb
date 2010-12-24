@@ -9,6 +9,7 @@ class Scaffolder::Tool
   class << self
 
     def [](type)
+      return Scaffolder::Tool::Default if type.nil?
       const_get(type.capitalize)
     end
 
@@ -50,6 +51,7 @@ class Scaffolder::Tool
     Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
   end
 
+  require 'scaffolder/tool/default'
   require 'scaffolder/tool/sequence'
   require 'scaffolder/tool/validate'
 end
