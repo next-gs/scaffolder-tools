@@ -28,6 +28,13 @@ describe Scaffolder::Tool do
       args.rest.should == @args.rest[-2..-1]
     end
 
+    it "should fetch the default tool class when no arguments passed" do
+      no_args = OpenStruct.new({ :rest => [] })
+      tool, args = described_class.determine_tool(no_args)
+      tool.should == Scaffolder::Tool::Default
+      args.should == no_args
+    end
+
   end
 
   describe "initialisation with attributes" do
