@@ -1,15 +1,17 @@
 require File.expand_path(File.join(File.dirname(__FILE__),'..','..','spec_helper'))
 
-describe Scaffolder::Tool::Default do
+describe Scaffolder::Tool::Help do
 
   it "should inherit from Scaffolder::Tool" do
     described_class.superclass.should == Scaffolder::Tool
   end
 
-  USAGE = <<-MSG
-usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
-[options]
-  MSG
+  USAGE = <<-MSG.gsub(/^ {6}/, '')
+      usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
+      [options]
+
+      Commands:"
+    MSG
 
   before(:each) do
     @settings = Hash.new

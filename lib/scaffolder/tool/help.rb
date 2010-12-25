@@ -1,6 +1,6 @@
 require 'scaffolder/tool'
 
-class Scaffolder::Tool::Default < Scaffolder::Tool
+class Scaffolder::Tool::Help < Scaffolder::Tool
 
   def execute
     raise_for_unknown(@settings[:unknown_command]) if @settings[:unknown_command]
@@ -24,9 +24,11 @@ class Scaffolder::Tool::Default < Scaffolder::Tool
   end
 
   def help
-    <<-MSG
-usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
-[options]
+    <<-MSG.gsub(/^ {6}/, '')
+      "usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
+      [options]
+
+      Commands:"
     MSG
   end
 

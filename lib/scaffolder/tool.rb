@@ -32,7 +32,7 @@ class Scaffolder::Tool
       if known_command?(type)
         fetch_tool_class(type)
       else
-        Scaffolder::Tool::Default
+        Scaffolder::Tool::Help
       end
     end
 
@@ -76,7 +76,7 @@ class Scaffolder::Tool
     Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
   end
 
-  require 'scaffolder/tool/default'
+  require 'scaffolder/tool/help'
   require 'scaffolder/tool/sequence'
   require 'scaffolder/tool/validate'
 end

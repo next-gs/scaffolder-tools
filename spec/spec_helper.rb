@@ -15,7 +15,7 @@ require 'scaffolder'
 require 'scaffolder/tool'
 require 'scaffolder/tool/sequence'
 require 'scaffolder/tool/validate'
-require 'scaffolder/tool/default'
+require 'scaffolder/tool/help'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each do |f|
   require File.expand_path(f)

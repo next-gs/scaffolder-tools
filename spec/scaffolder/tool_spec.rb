@@ -5,7 +5,7 @@ describe Scaffolder::Tool do
   describe "determining the tool type" do
 
     before(:each) do
-      @help_tool = Scaffolder::Tool::Default
+      @help_tool = Scaffolder::Tool::Help
 
       @args = OpenStruct.new({ :rest => %W|type arg1 arg2| })
       @tool = Class.new(described_class)
@@ -43,7 +43,7 @@ describe Scaffolder::Tool do
     it "should fetch the help tool class when no arguments passed" do
       no_args = OpenStruct.new({ :rest => [] })
       tool, args = described_class.determine_tool(no_args)
-      tool.should == Scaffolder::Tool::Default
+      tool.should == Scaffolder::Tool::Help
       args.should == no_args
     end
 
