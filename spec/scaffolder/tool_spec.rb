@@ -5,6 +5,8 @@ describe Scaffolder::Tool do
   describe "determining the tool type" do
 
     before(:each) do
+      @help_tool = Scaffolder::Tool::Default
+
       @args = OpenStruct.new({ :rest => %W|type arg1 arg2| })
       @tool = Class.new
       described_class.const_set('Type',@tool)
@@ -22,8 +24,12 @@ describe Scaffolder::Tool do
       described_class['unknown-command'].should == Scaffolder::Tool::Default
     end
 
-    it "return the default class when passed nil" do
-      described_class[nil].should == Scaffolder::Tool::Default
+    it "return the help tool when passed an unknown command" do
+      described_class['unknown-command'].should == @help_tool
+    end
+
+    it "return the help tool when passed nil" do
+      described_class[nil].should == @help_tool
     end
 
     it "should fetch the right tool class when requested" do
@@ -32,14 +38,14 @@ describe Scaffolder::Tool do
       args.rest.should == @args.rest[-2..-1]
     end
 
-    it "should fetch the default tool class when no arguments passed" do
+    it "should fetch the help tool class when no arguments passed" do
       no_args = OpenStruct.new({ :rest => [] })
       tool, args = described_class.determine_tool(no_args)
       tool.should == Scaffolder::Tool::Default
       args.should == no_args
     end
 
-    it "should fetch the default tool class when an invalid argument is passed" do
+    it "should fetch the help tool class when an invalid argument is passed" do
       args = Hash.new
       args.expects(:rest).returns(['unknown-command'])
       updated_args = args.clone
@@ -47,7 +53,7 @@ describe Scaffolder::Tool do
 
       tool, args = described_class.determine_tool(args)
 
-      tool.should == Scaffolder::Tool::Default
+      tool.should == @help_tool
       args.should == updated_args
     end
   end
