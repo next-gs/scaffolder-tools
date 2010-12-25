@@ -76,7 +76,7 @@ class Scaffolder::Tool
     Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
   end
 
-  require 'scaffolder/tool/help'
-  require 'scaffolder/tool/sequence'
-  require 'scaffolder/tool/validate'
+  Dir["#{File.dirname(__FILE__)}/tool/*.rb"].each do |f|
+    require File.expand_path(f)
+  end
 end
