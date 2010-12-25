@@ -18,6 +18,10 @@ describe Scaffolder::Tool do
       described_class['type'].should == @tool
     end
 
+    it "return the default class when passed an unknown command" do
+      described_class['unknown-command'].should == Scaffolder::Tool::Default
+    end
+
     it "return the default class when passed nil" do
       described_class[nil].should == Scaffolder::Tool::Default
     end
@@ -35,6 +39,17 @@ describe Scaffolder::Tool do
       args.should == no_args
     end
 
+    it "should fetch the default tool class when an invalid argument is passed" do
+      args = Hash.new
+      args.expects(:rest).returns(['unknown-command'])
+      updated_args = args.clone
+      updated_args[:unknown_command] = 'unknown-command'
+
+      tool, args = described_class.determine_tool(args)
+
+      tool.should == Scaffolder::Tool::Default
+      args.should == updated_args
+    end
   end
 
   describe "initialisation with attributes" do

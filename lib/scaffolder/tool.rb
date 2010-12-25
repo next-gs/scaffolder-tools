@@ -8,13 +8,30 @@ class Scaffolder::Tool
 
   class << self
 
+    def tool_name(type)
+      type.to_s.capitalize
+    end
+
+    def known_command?(type)
+      constants.include?(tool_name(type))
+    end
+
+    def fetch_tool_class(type)
+      const_get(tool_name(type))
+    end
+
     def [](type)
-      return Scaffolder::Tool::Default if type.nil?
-      const_get(type.capitalize)
+      if known_command?(type)
+        fetch_tool_class(type)
+      else
+        Scaffolder::Tool::Default
+      end
     end
 
     def determine_tool(settings)
-      tool_class = self[settings.rest.shift]
+      type = settings.rest.shift
+      tool_class = self[type]
+      settings[:unknown_command] = type unless (known_command?(type) or type.nil?)
       [tool_class,settings]
     end
 
