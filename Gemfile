@@ -14,6 +14,7 @@ group :development do
   gem "cucumber", "~> 0.10"
   gem "aruba",    "~> 0.2"
   gem "mocha",    "~> 0.9"
+  gem "hashie",   "~> 0.4"
   gem "yard",     "~> 0.6"
 
   gem "scaffolder-test-helpers", "~> 0.1"
