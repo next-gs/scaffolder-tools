@@ -8,7 +8,7 @@ describe Scaffolder::Tool do
       @help_tool = Scaffolder::Tool::Default
 
       @args = OpenStruct.new({ :rest => %W|type arg1 arg2| })
-      @tool = Class.new
+      @tool = Class.new(described_class)
       described_class.const_set('Type',@tool)
     end
 
@@ -20,8 +20,10 @@ describe Scaffolder::Tool do
       described_class['type'].should == @tool
     end
 
-    it "return the default class when passed an unknown command" do
-      described_class['unknown-command'].should == Scaffolder::Tool::Default
+    it "should return a hash of tool types" do
+      described_class.commands.should be_instance_of(Hash)
+      described_class.commands.keys.should include(:type)
+      described_class.commands[:type].should == Scaffolder::Tool::Type
     end
 
     it "return the help tool when passed an unknown command" do

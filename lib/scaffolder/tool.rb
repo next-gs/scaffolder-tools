@@ -8,6 +8,14 @@ class Scaffolder::Tool
 
   class << self
 
+    def commands
+      classes = constants.map{|c| const_get(c) }.select{|c| c.superclass == self}
+      classes.inject(Hash.new) do |hash,tool|
+        hash[tool.to_s.split('::').last.downcase.to_sym] = tool
+        hash
+      end
+    end
+
     def tool_name(type)
       type.to_s.capitalize
     end
