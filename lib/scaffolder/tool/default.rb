@@ -3,21 +3,31 @@ require 'scaffolder/tool'
 class Scaffolder::Tool::Default < Scaffolder::Tool
 
   def execute
+    raise_for_unknown(@settings[:unknown_command]) if @settings[:unknown_command]
+
     message = String.new
-    if @settings[:unknown_command]
-      raise ArgumentError.new(
-       "Unknown command '#{@settings[:unknown_command]}'.\nSee 'scaffolder --help'.")
-    end
-    if @settings[:version]
-      message << "scaffolder tool version #{File.read('VERSION').strip}"
-    end
-    if @settings[:help] || @settings.keys.empty?
-      message << <<-MSG
+    message << version if @settings[:version]
+    message << help if @settings[:help] || @settings.keys.empty?
+    message
+  end
+
+  private
+
+  def raise_for_unknown(command)
+    msg = "Unknown command '#{command}'.\nSee 'scaffolder --help'."
+    raise ArgumentError.new(msg)
+  end
+
+  def version
+    ver = File.read(File.join(%W|#{File.dirname(__FILE__)} .. .. .. VERSION|)).strip
+    "scaffolder tool version #{ver}"
+  end
+
+  def help
+    <<-MSG
 usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
 [options]
-      MSG
-    end
-    message
+    MSG
   end
 
 end
