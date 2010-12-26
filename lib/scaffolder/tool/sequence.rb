@@ -5,6 +5,10 @@ require 'scaffolder/tool'
 
 class Scaffolder::Tool::Sequence < Scaffolder::Tool
 
+  def self.description
+    "Generate the fasta output for the scaffold"
+  end
+
   def execute
     s = sequence(scaffold)
     Bio::Sequence.new(s).output(:fasta,:header => header(s,@settings))

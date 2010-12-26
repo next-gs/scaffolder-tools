@@ -4,6 +4,10 @@ require 'scaffolder/tool'
 
 class Scaffolder::Tool::Validate < Scaffolder::Tool
 
+  def self.description
+    "Validate scaffold for overlapping inserts"
+  end
+
   def execute
     bad_sequences = errors
     return if bad_sequences.empty?

@@ -8,25 +8,29 @@ Feature: Command line documentation for scaffolder
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
-    usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
+    usage: scaffolder [--version] COMMAND scaffold-file sequence-file
     [options]
 
     Commands:
-       sequence   Generate the fasta output for the scaffold
-       validate   Validate scaffold for overlapping inserts
+      help        Help information for scaffolder commands
+      sequence    Generate the fasta output for the scaffold
+      validate    Validate scaffold for overlapping inserts
+
     """
 
-  Scenario: Running scaffolder the help argument
-    When I call "scaffolder" with arguments "--help"
+  Scenario: Running scaffolder with the help argument
+    When I call "scaffolder" with arguments "help"
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
-    usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
+    usage: scaffolder [--version] COMMAND scaffold-file sequence-file
     [options]
 
     Commands:
-       sequence   Generate the fasta output for the scaffold
-       validate   Validate scaffold for overlapping inserts
+      help        Help information for scaffolder commands
+      sequence    Generate the fasta output for the scaffold
+      validate    Validate scaffold for overlapping inserts
+
     """
 
   Scenario: Running scaffolder with the version argument
@@ -34,15 +38,16 @@ Feature: Command line documentation for scaffolder
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
-    scaffolder version 0.1.0
+    scaffolder tool version 0.1.0
+
     """
 
   Scenario: Running scaffolder with an incorrect command
-    When I call "scaffolder" with arguments "non-existant-command"
+    When I call "scaffolder" with arguments "unknown-command"
     Then the exit status should be 1
-    And the stdout should contain exactly:
+    And the stderr should contain exactly:
     """
-    Error: 'non-existant-command' is not a scaffolder command.
-    See 'scaffolder --help'.
+    Error. Unknown command 'unknown-command'.
+    See 'scaffolder help'.
 
     """

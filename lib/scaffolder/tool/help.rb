@@ -2,19 +2,23 @@ require 'scaffolder/tool'
 
 class Scaffolder::Tool::Help < Scaffolder::Tool
 
+  def self.description
+    "Help information for scaffolder commands"
+  end
+
   def execute
     raise_for_unknown(@settings[:unknown_command]) if @settings[:unknown_command]
 
     message = String.new
     message << version if @settings[:version]
-    message << help if @settings[:help] || @settings.keys.empty?
+    message << help if @settings.keys.empty?
     message
   end
 
   private
 
   def raise_for_unknown(command)
-    msg = "Unknown command '#{command}'.\nSee 'scaffolder --help'."
+    msg = "Unknown command '#{command}'.\nSee 'scaffolder help'."
     raise ArgumentError.new(msg)
   end
 
@@ -24,12 +28,18 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
   end
 
   def help
-    <<-MSG.gsub(/^ {6}/, '')
-      "usage: scaffolder [--version] [--help] COMMAND scaffold-file sequence-file
+    string = <<-MSG.gsub(/^ {6}/, '')
+      usage: scaffolder [--version] COMMAND scaffold-file sequence-file
       [options]
 
-      Commands:"
+      Commands:
     MSG
+    [:help,:sequence,:validate].each do |command|
+      string << "  "
+      string << command.to_s.ljust(12)
+      string << self.class.superclass.commands[command].description + "\n"
+    end
+    string
   end
 
 end

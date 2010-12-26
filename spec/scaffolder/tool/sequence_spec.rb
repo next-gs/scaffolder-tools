@@ -6,6 +6,11 @@ describe Scaffolder::Tool::Sequence do
     described_class.superclass.should == Scaffolder::Tool
   end
 
+  it "should return the description of the tool" do
+    desc = "Generate the fasta output for the scaffold"
+    described_class.description.should == desc
+  end
+
   describe "execution when correctly instantiated" do
 
     before(:each) do
