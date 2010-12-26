@@ -6,6 +6,11 @@ describe Scaffolder::Tool::Validate do
     described_class.superclass.should == Scaffolder::Tool
   end
 
+  it "should return the description of the tool" do
+    desc = "Validate scaffold for overlapping inserts"
+    described_class.description.should == desc
+  end
+
   describe "comparing inserts for overlaps" do
 
     before(:all) do

@@ -8,12 +8,38 @@ class Scaffolder::Tool
 
   class << self
 
+    def commands
+      classes = constants.map{|c| const_get(c) }.select{|c| c.superclass == self}
+      classes.inject(Hash.new) do |hash,tool|
+        hash[tool.to_s.split('::').last.downcase.to_sym] = tool
+        hash
+      end
+    end
+
+    def tool_name(type)
+      type.to_s.capitalize
+    end
+
+    def known_command?(type)
+      constants.include?(tool_name(type))
+    end
+
+    def fetch_tool_class(type)
+      const_get(tool_name(type))
+    end
+
     def [](type)
-      const_get(type.capitalize)
+      if known_command?(type)
+        fetch_tool_class(type)
+      else
+        Scaffolder::Tool::Help
+      end
     end
 
     def determine_tool(settings)
-      tool_class = self[settings.rest.shift]
+      type = settings.rest.shift
+      tool_class = self[type]
+      settings[:unknown_command] = type unless (known_command?(type) or type.nil?)
       [tool_class,settings]
     end
 
@@ -50,6 +76,7 @@ class Scaffolder::Tool
     Scaffolder.new(YAML.load(File.read(@scaffold_file)),@sequence_file)
   end
 
-  require 'scaffolder/tool/sequence'
-  require 'scaffolder/tool/validate'
+  Dir["#{File.dirname(__FILE__)}/tool/*.rb"].each do |f|
+    require File.expand_path(f)
+  end
 end

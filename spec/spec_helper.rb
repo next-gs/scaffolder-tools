@@ -4,6 +4,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'tempfile'
 require 'ostruct'
 
+require 'hashie'
 require 'rspec'
 require 'fakefs/safe'
 require 'mocha'
@@ -12,8 +13,9 @@ require 'scaffolder/test/helpers'
 require 'scaffolder'
 
 require 'scaffolder/tool'
-require 'scaffolder/tool/sequence'
-require 'scaffolder/tool/validate'
+Dir["#{File.dirname(__FILE__)}/../lib/scaffolder/tool/*.rb"].each do |f|
+  require File.expand_path(f)
+end
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each do |f|
   require File.expand_path(f)

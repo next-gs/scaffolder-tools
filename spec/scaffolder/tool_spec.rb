@@ -5,8 +5,10 @@ describe Scaffolder::Tool do
   describe "determining the tool type" do
 
     before(:each) do
+      @help_tool = Scaffolder::Tool::Help
+
       @args = OpenStruct.new({ :rest => %W|type arg1 arg2| })
-      @tool = Class.new
+      @tool = Class.new(described_class)
       described_class.const_set('Type',@tool)
     end
 
@@ -18,12 +20,44 @@ describe Scaffolder::Tool do
       described_class['type'].should == @tool
     end
 
+    it "should return a hash of tool types" do
+      described_class.commands.should be_instance_of(Hash)
+      described_class.commands.keys.should include(:type)
+      described_class.commands[:type].should == Scaffolder::Tool::Type
+    end
+
+    it "return the help tool when passed an unknown command" do
+      described_class['unknown-command'].should == @help_tool
+    end
+
+    it "return the help tool when passed nil" do
+      described_class[nil].should == @help_tool
+    end
+
     it "should fetch the right tool class when requested" do
       tool, args = described_class.determine_tool(@args)
       tool.should == @tool
       args.rest.should == @args.rest[-2..-1]
     end
 
+    it "should fetch the help tool class when no arguments passed" do
+      no_args = OpenStruct.new({ :rest => [] })
+      tool, args = described_class.determine_tool(no_args)
+      tool.should == Scaffolder::Tool::Help
+      args.should == no_args
+    end
+
+    it "should fetch the help tool class when an invalid argument is passed" do
+      args = Hash.new
+      args.expects(:rest).returns(['unknown-command'])
+      updated_args = args.clone
+      updated_args[:unknown_command] = 'unknown-command'
+
+      tool, args = described_class.determine_tool(args)
+
+      tool.should == @help_tool
+      args.should == updated_args
+    end
   end
 
   describe "initialisation with attributes" do
