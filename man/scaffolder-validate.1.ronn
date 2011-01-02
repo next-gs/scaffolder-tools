@@ -3,7 +3,7 @@ scaffolder-validate(1) -- Test scaffold for overlapping inserts
 
 ## SYNOPSIS
 
-`scaffolder-validate` <scaffolder-file> <sequence-file>
+`scaffolder validate` <scaffolder-file> <sequence-file>
 
 ## DESCRIPTION
 

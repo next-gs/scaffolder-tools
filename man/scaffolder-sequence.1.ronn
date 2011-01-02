@@ -3,7 +3,7 @@ scaffolder-sequence(1) -- assemble yaml scaffold file into fasta sequence
 
 ## SYNOPSIS
 
-`scaffolder-sequence` [<options>...] <scaffold-file> <sequence-file>
+`scaffolder sequence` [<options>...] <scaffold-file> <sequence-file>
 
 ## DESCRIPTION
 
