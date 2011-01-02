@@ -1,6 +1,6 @@
-Feature: Command line documentation for scaffolder
-  In order to understand how a tools works
-  A user can use scaffolder at the command line
+Feature: Help for scaffolder
+  In order to understand how the scaffolder tools work
+  A user can use scaffolder help at the command line
   to review its documentation
 
   Scenario: Running scaffolder without any arguments
