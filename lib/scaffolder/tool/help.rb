@@ -9,13 +9,15 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
   def execute
     raise_for_unknown(@settings[:unknown_command]) if @settings[:unknown_command]
 
-    if settings.rest.empty?
+    command = settings.rest.first
+    if command
+      raise_for_unknown(command) unless self.class.superclass.known_command?(command)
+      man settings.rest.first
+    else
       message = String.new
       message << version if @settings[:version]
       message << help if @settings.keys.empty?
       return message
-    else
-      man settings.rest.first
     end
   end
 

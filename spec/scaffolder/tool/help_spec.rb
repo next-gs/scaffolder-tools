@@ -81,14 +81,15 @@ describe Scaffolder::Tool::Help do
   describe "execution with the name of a scaffolder tool command" do
 
     before(:each) do
-      FakeFS.activate!
+      @tool = Class.new(described_class)
+      described_class.superclass.const_set('Fake',@tool)
+
       @man_dir = File.join(%W|#{File.dirname(__FILE__)} .. .. .. man| )
       @fake_man = File.join(@man_dir,'scaffolder-fake.1.ronn')
-      File.open(@fake_man,'w'){|out| out.puts "" }
     end
 
     after(:each) do
-      FakeFS.deactivate!
+      described_class.superclass.send(:remove_const,'Fake')
     end
 
     subject do
@@ -106,6 +107,20 @@ describe Scaffolder::Tool::Help do
       Kernel.expects(:system).
         with("ronn -m #{File.expand_path(@fake_man)}")
       subject.execute
+    end
+
+  end
+
+  describe "execution with the name of a unknown command" do
+
+    subject do
+      @settings.stubs(:rest).returns(['fake'])
+      described_class.new(@settings)
+    end
+
+    it "should raise an error" do
+      lambda{ subject.execute }.should(raise_error(ArgumentError,
+        "Unknown command 'fake'.\nSee 'scaffolder help'."))
     end
 
   end

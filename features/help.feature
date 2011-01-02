@@ -66,3 +66,14 @@ Feature: Command line help for scaffolder
     When I call "scaffolder" with arguments "help help"
     Then the exit status should be 0
     And the stdout should contain "SCAFFOLDER-HELP(1)"
+
+  Scenario: Fetching the man page for an incorrect command
+    When I call "scaffolder" with arguments "help unknown-command"
+    Then the exit status should be 1
+    And the stderr should contain exactly:
+    """
+    Error. Unknown command 'unknown-command'.
+    See 'scaffolder help'.
+
+    """
+
