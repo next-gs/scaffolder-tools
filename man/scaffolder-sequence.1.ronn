@@ -36,9 +36,11 @@ Pipe the assembly into another file.
 
 ## BUGS
 
-**Scaffolder-sequence** is written in Ruby and depends on the scaffolder, BioRuby
-and configliere gems. See the Gemfile in the scaffolder-tools gem install
-directory for version details.
+## BUGS
+
+**Scaffolder-sequence** is written in Ruby and depends on the scaffolder,
+BioRuby, configliere and ronn gems. See the Gemfile in the scaffolder-tools gem
+install directory for version details.
 
 ## COPYRIGHT
 

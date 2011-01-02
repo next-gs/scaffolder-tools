@@ -19,7 +19,7 @@ overlapping inserts is returned in a yaml format.
 ## BUGS
 
 **Scaffolder-validate** is written in Ruby and depends on the scaffolder,
-BioRuby and configliere gems. See the Gemfile in the scaffolder-tools gem
+BioRuby, configliere and ronn gems. See the Gemfile in the scaffolder-tools gem
 install directory for version details.
 
 ## COPYRIGHT
