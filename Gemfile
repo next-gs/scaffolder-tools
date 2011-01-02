@@ -4,6 +4,7 @@ group :default do
   gem "configliere", "~> 0.1"
   gem "bio",         "~> 1.4"
   gem "scaffolder",  "~> 0.4"
+  gem "ronn",        "~> 0.7"
 end
 
 group :development do

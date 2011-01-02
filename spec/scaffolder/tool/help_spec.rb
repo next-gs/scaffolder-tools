@@ -78,4 +78,35 @@ describe Scaffolder::Tool::Help do
 
   end
 
+  describe "execution with the name of a scaffolder tool command" do
+
+    before(:each) do
+      FakeFS.activate!
+      @man_dir = File.join(%W|#{File.dirname(__FILE__)} .. .. .. man| )
+      @fake_man = File.join(@man_dir,'scaffolder-fake.1.ronn')
+      File.open(@fake_man,'w'){|out| out.puts "" }
+    end
+
+    after(:each) do
+      FakeFS.deactivate!
+    end
+
+    subject do
+      @settings.stubs(:rest).returns(['fake'])
+      described_class.new(@settings)
+    end
+
+    it "should not raise an error" do
+      Kernel.stubs(:system).
+        with("ronn -m #{File.expand_path(@fake_man)}")
+      lambda{ subject.execute }.should_not raise_error
+    end
+
+    it "should call ronn on the command line with the man file location" do
+      Kernel.expects(:system).
+        with("ronn -m #{File.expand_path(@fake_man)}")
+      subject.execute
+    end
+
+  end
 end

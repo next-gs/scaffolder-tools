@@ -9,10 +9,14 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
   def execute
     raise_for_unknown(@settings[:unknown_command]) if @settings[:unknown_command]
 
-    message = String.new
-    message << version if @settings[:version]
-    message << help if @settings.keys.empty?
-    message
+    if settings.rest.empty?
+      message = String.new
+      message << version if @settings[:version]
+      message << help if @settings.keys.empty?
+      return message
+    else
+      man settings.rest.first
+    end
   end
 
   private
@@ -42,4 +46,10 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
     string
   end
 
+  def man(tool)
+    man_page = File.join(
+      %W|#{File.dirname(__FILE__)} .. .. .. man scaffolder-#{tool}.1.ronn|)
+
+    Kernel.system("ronn -m #{File.expand_path(man_page)}")
+  end
 end
