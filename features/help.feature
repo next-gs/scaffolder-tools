@@ -61,3 +61,8 @@ Feature: Command line help for scaffolder
     When I call "scaffolder" with arguments "help validate"
     Then the exit status should be 0
     And the stdout should contain "SCAFFOLDER-VALIDATE(1)"
+
+  Scenario: Fetching the man page for help
+    When I call "scaffolder" with arguments "help help"
+    Then the exit status should be 0
+    And the stdout should contain "SCAFFOLDER-HELP(1)"
