@@ -3,7 +3,7 @@ require 'scaffolder'
 module Scaffolder::ToolIndex
   require 'scaffolder/tool'
 
-  def fetch_tool_class(name)
+  def get_tool(name)
     tools[normalise(name)]
   end
 
@@ -13,7 +13,7 @@ module Scaffolder::ToolIndex
 
   def [](type)
     if known_tool?(type)
-      fetch_tool_class(type)
+      get_tool(type)
     else
       Scaffolder::Tool::Help
     end

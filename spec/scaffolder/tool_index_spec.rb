@@ -5,9 +5,11 @@ describe Scaffolder::ToolIndex do
   before(:each) do
     @help_tool = Scaffolder::Tool::Help
 
-    @args = OpenStruct.new({ :rest => %W|type arg1 arg2| })
-    @tool = Class.new(Scaffolder::Tool)
-    Scaffolder::Tool.const_set('Type',@tool)
+    @tool_class = Class.new(Scaffolder::Tool)
+    @tool_name = 'type'
+    Scaffolder::Tool.const_set(@tool_name.capitalize,@tool_class)
+
+    @args = OpenStruct.new({ :rest => %W|#{@tool_name} arg1 arg2| })
   end
 
   after(:each) do
@@ -20,8 +22,20 @@ describe Scaffolder::ToolIndex do
     object
   end
 
+  describe "get_tool method" do
+
+    it "should return nil when no such tool exists" do
+      subject.get_tool('unknown-tool').should be_nil
+    end
+
+    it "should return the tool class when the tool exists" do
+      subject.get_tool(@tool_name).should == @tool_class
+    end
+
+  end
+
   it "return corresponding tool subclass when requested" do
-    subject['type'].should == @tool
+    subject[@tool_name].should == @tool_class
   end
 
   it "return the help tool when passed an unknown command" do
@@ -34,7 +48,7 @@ describe Scaffolder::ToolIndex do
 
   it "should fetch the right tool class when requested" do
     tool, args = subject.determine_tool(@args)
-    tool.should == @tool
+    tool.should == @tool_class
     args.rest.should == @args.rest[-2..-1]
   end
 
