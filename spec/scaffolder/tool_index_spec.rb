@@ -25,13 +25,13 @@ describe Scaffolder::ToolIndex do
   end
 
   it "should return a hash of tool types" do
-    subject.commands.should be_instance_of(Hash)
-    subject.commands.keys.should include(:type)
-    subject.commands[:type].should == @tool
+    subject.tools.should be_instance_of(Hash)
+    subject.tools.keys.should include(:type)
+    subject.tools[:type].should == @tool
   end
 
   it "return the help tool when passed an unknown command" do
-    subject['unknown-command'].should == @help_tool
+    subject['unknown-tool'].should == @help_tool
   end
 
   it "return the help tool when passed nil" do
@@ -53,9 +53,9 @@ describe Scaffolder::ToolIndex do
 
   it "should fetch the help tool class when an invalid argument is passed" do
     args = Hash.new
-    args.expects(:rest).returns(['unknown-command'])
+    args.expects(:rest).returns(['unknown-tool'])
     updated_args = args.clone
-    updated_args[:unknown_command] = 'unknown-command'
+    updated_args[:unknown_tool] = 'unknown-tool'
 
     tool, args = subject.determine_tool(args)
 

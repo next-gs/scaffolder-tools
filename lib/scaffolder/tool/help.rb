@@ -9,11 +9,11 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
   end
 
   def execute
-    raise_for_unknown(@settings[:unknown_command]) if @settings[:unknown_command]
+    raise_for_unknown(@settings[:unknown_tool]) if @settings[:unknown_tool]
 
-    command = settings.rest.first
-    if command
-      raise_for_unknown(command) unless known_command?(command)
+    tool = settings.rest.first
+    if tool
+      raise_for_unknown(tool) unless known_tool?(tool)
       man settings.rest.first
     else
       message = String.new
@@ -42,10 +42,10 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
 
       Commands:
     MSG
-    [:help,:sequence,:validate].each do |command|
+    [:help,:sequence,:validate].each do |name|
       string << "  "
-      string << command.to_s.ljust(12)
-      string << commands[command].description + "\n"
+      string << name.to_s.ljust(12)
+      string << tools[name].description + "\n"
     end
     string
   end

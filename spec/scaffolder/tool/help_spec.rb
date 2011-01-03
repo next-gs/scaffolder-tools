@@ -66,7 +66,7 @@ describe Scaffolder::Tool::Help do
   describe "execution with an invalid command arguments" do
 
     subject do
-      @settings[:unknown_command] = 'unknown_command'
+      @settings[:unknown_tool] = 'unknown_command'
       described_class.new(@settings)
     end
 
