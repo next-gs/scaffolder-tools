@@ -1,10 +1,16 @@
 module Scaffolder::ToolIndex
 
+    def tool_classes
+      Scaffolder::Tool.constants.inject(Array.new) do |array,constant|
+        clss = Scaffolder::Tool.const_get(constant)
+        array << clss if clss.superclass == Scaffolder::Tool
+        array
+      end
+    end
+
     def commands
-      classes = Scaffolder::Tool.constants.map{|c| Scaffolder::Tool.const_get(c) }.
-        select{|c| c.superclass == Scaffolder::Tool}
-      classes.inject(Hash.new) do |hash,tool|
-        hash[tool.to_s.split('::').last.downcase.to_sym] = tool
+      tool_classes.inject(Hash.new) do |hash,clss|
+        hash[clss.to_s.split('::').last.downcase.to_sym] = clss
         hash
       end
     end

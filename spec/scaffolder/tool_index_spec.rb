@@ -27,7 +27,7 @@ describe Scaffolder::ToolIndex do
   it "should return a hash of tool types" do
     subject.commands.should be_instance_of(Hash)
     subject.commands.keys.should include(:type)
-    subject.commands[:type].should == Scaffolder::Tool::Type
+    subject.commands[:type].should == @tool
   end
 
   it "return the help tool when passed an unknown command" do
