@@ -3,8 +3,12 @@ require 'scaffolder'
 module Scaffolder::ToolIndex
   require 'scaffolder/tool'
 
-  def known_tool?(type)
-    Scaffolder::Tool.constants.include?(tool_name(type))
+  def normalise(name)
+    name.to_s.downcase.to_sym if name
+  end
+
+  def known_tool?(name)
+    tools.keys.include?(normalise(name))
   end
 
   def tool_classes
