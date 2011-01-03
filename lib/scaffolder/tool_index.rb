@@ -8,7 +8,7 @@ module Scaffolder::ToolIndex
   end
 
   def tool_exists?(name)
-    tools.keys.include?(normalise(name))
+    ! get_tool(name).nil?
   end
 
   def [](type)
