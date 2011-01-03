@@ -80,7 +80,7 @@ describe Scaffolder::Tool::Help do
   describe "execution with the name of a scaffolder tool command" do
 
     before(:each) do
-      @tool = Class.new(described_class)
+      @tool = Class.new(Scaffolder::Tool)
       described_class.superclass.const_set('Fake',@tool)
 
       @man_dir = File.join(%W|#{File.dirname(__FILE__)} .. .. .. man| )
@@ -97,14 +97,12 @@ describe Scaffolder::Tool::Help do
     end
 
     it "should not raise an error" do
-      Kernel.stubs(:system).
-        with("ronn -m #{File.expand_path(@fake_man)}")
+      Kernel.stubs(:system).with("ronn -m #{File.expand_path(@fake_man)}")
       lambda{ subject.execute }.should_not raise_error
     end
 
     it "should call ronn on the command line with the man file location" do
-      Kernel.expects(:system).
-        with("ronn -m #{File.expand_path(@fake_man)}")
+      Kernel.expects(:system).with("ronn -m #{File.expand_path(@fake_man)}")
       subject.execute
     end
 
