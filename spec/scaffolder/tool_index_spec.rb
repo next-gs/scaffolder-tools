@@ -46,40 +46,4 @@ describe Scaffolder::ToolIndex do
 
   end
 
-  it "return corresponding tool subclass when requested" do
-    subject[@tool_name].should == @tool_class
-  end
-
-  it "return the help tool when passed an unknown command" do
-    subject['unknown-tool'].should == @help_tool
-  end
-
-  it "return the help tool when passed nil" do
-    subject[nil].should == @help_tool
-  end
-
-  it "should fetch the right tool class when requested" do
-    tool, args = subject.determine_tool(@args)
-    tool.should == @tool_class
-    args.rest.should == @args.rest[-2..-1]
-  end
-
-  it "should fetch the help tool class when no arguments passed" do
-    no_args = OpenStruct.new({ :rest => [] })
-    tool, args = subject.determine_tool(no_args)
-    tool.should == Scaffolder::Tool::Help
-    args.should == no_args
-  end
-
-  it "should fetch the help tool class when an invalid argument is passed" do
-    args = Hash.new
-    args.expects(:rest).returns(['unknown-tool'])
-    updated_args = args.clone
-    updated_args[:unknown_tool] = 'unknown-tool'
-
-    tool, args = subject.determine_tool(args)
-
-    tool.should == @help_tool
-    args.should == updated_args
-  end
 end

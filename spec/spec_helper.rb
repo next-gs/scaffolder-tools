@@ -13,6 +13,8 @@ require 'scaffolder/test/helpers'
 require 'scaffolder'
 
 require 'scaffolder/tool'
+require 'scaffolder/tool_index'
+require 'scaffolder/binary_helper'
 Dir["#{File.dirname(__FILE__)}/../lib/scaffolder/tool/*.rb"].each do |f|
   require File.expand_path(f)
 end

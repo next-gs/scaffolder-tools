@@ -3,9 +3,9 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
 require 'configliere'
-require 'scaffolder/tool_index'
+require 'scaffolder/binary_helper'
 
-extend Scaffolder::ToolIndex
+extend Scaffolder::BinaryHelper
 
 Settings.use :commandline
 Settings.resolve!
