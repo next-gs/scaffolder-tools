@@ -7,6 +7,10 @@ module Scaffolder::ToolIndex
     name.to_s.downcase.to_sym if name
   end
 
+  def fetch_tool_class(name)
+    tools[normalise(name)]
+  end
+
   def known_tool?(name)
     tools.keys.include?(normalise(name))
   end
@@ -24,14 +28,6 @@ module Scaffolder::ToolIndex
       hash[clss.to_s.split('::').last.downcase.to_sym] = clss
       hash
     end
-  end
-
-  def tool_name(type)
-    type.to_s.capitalize
-  end
-
-  def fetch_tool_class(type)
-    Scaffolder::Tool.const_get(tool_name(type))
   end
 
   def [](type)
