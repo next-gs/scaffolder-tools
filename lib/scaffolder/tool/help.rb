@@ -1,6 +1,8 @@
 require 'scaffolder/tool'
+require 'scaffolder/tool_index'
 
 class Scaffolder::Tool::Help < Scaffolder::Tool
+  include Scaffolder::ToolIndex
 
   def self.description
     "Help information for scaffolder commands"
@@ -11,7 +13,7 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
 
     command = settings.rest.first
     if command
-      raise_for_unknown(command) unless self.class.superclass.known_command?(command)
+      raise_for_unknown(command) unless known_command?(command)
       man settings.rest.first
     else
       message = String.new
@@ -43,7 +45,7 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
     [:help,:sequence,:validate].each do |command|
       string << "  "
       string << command.to_s.ljust(12)
-      string << self.class.superclass.commands[command].description + "\n"
+      string << commands[command].description + "\n"
     end
     string
   end

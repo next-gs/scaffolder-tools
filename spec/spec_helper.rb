@@ -26,6 +26,12 @@ RSpec.configure do |config|
 
   include Scaffolder::Test::Helpers
 
+  def tool_subclasses
+    ObjectSpace.each_object.map{|obj| obj.class }.select do |cls|
+      cls.superclass == Scaffolder::Tool
+    end
+  end
+
   def mock_command_line_settings(scaf_file = mock, seq_file = mock, hash_args={})
     settings = mock
 

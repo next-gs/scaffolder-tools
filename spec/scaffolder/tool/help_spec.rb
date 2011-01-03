@@ -56,9 +56,8 @@ describe Scaffolder::Tool::Help do
     end
 
     it "should contain each tool information" do
-      Scaffolder::Tool.commands.each do |command,command_class|
-        string = command.to_s.ljust(12) + command_class.description + "\n"
-        subject.execute.should include(string)
+      tool_subclasses.each do |cls|
+        subject.execute.should include(cls.description)
       end
     end
 
