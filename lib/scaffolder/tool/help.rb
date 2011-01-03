@@ -12,7 +12,7 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
 
     tool = settings.rest.first
     if tool
-      raise_for_unknown(tool) unless known_tool?(tool)
+      raise_for_unknown(tool) unless tool_exists?(tool)
       man settings.rest.first
     else
       message = String.new

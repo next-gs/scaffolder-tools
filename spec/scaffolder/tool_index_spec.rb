@@ -22,6 +22,18 @@ describe Scaffolder::ToolIndex do
     object
   end
 
+  describe "tool_exists? method" do
+
+    it "should return false when no such tool exists" do
+      subject.tool_exists?('unknown-tool').should be_false
+    end
+
+    it "should return true when the tool exists" do
+      subject.tool_exists?(@tool_name).should be_true
+    end
+
+  end
+
   describe "get_tool method" do
 
     it "should return nil when no such tool exists" do

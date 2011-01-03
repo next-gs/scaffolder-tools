@@ -7,12 +7,12 @@ module Scaffolder::ToolIndex
     tools[normalise(name)]
   end
 
-  def known_tool?(name)
+  def tool_exists?(name)
     tools.keys.include?(normalise(name))
   end
 
   def [](type)
-    if known_tool?(type)
+    if tool_exists?(type)
       get_tool(type)
     else
       Scaffolder::Tool::Help
@@ -22,7 +22,7 @@ module Scaffolder::ToolIndex
   def determine_tool(settings)
     type = settings.rest.shift
     tool_class = self[type]
-    settings[:unknown_tool] = type unless (known_tool?(type) or type.nil?)
+    settings[:unknown_tool] = type unless (tool_exists?(type) or type.nil?)
     [tool_class,settings]
   end
 
