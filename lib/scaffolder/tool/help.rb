@@ -1,5 +1,4 @@
 require 'scaffolder/tool'
-require 'scaffolder/tool_index'
 
 class Scaffolder::Tool::Help < Scaffolder::Tool
   include Scaffolder::ToolIndex

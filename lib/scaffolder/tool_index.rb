@@ -1,4 +1,7 @@
+require 'scaffolder'
+
 module Scaffolder::ToolIndex
+  require 'scaffolder/tool'
 
   def known_tool?(type)
     Scaffolder::Tool.constants.include?(tool_name(type))

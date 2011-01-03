@@ -1,7 +1,7 @@
 require 'scaffolder'
-require 'scaffolder/tool_index'
 
 class Scaffolder::Tool
+  require 'scaffolder/tool_index'
 
   attr :scaffold_file
   attr :sequence_file

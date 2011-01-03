@@ -3,10 +3,12 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
 require 'configliere'
-require 'scaffolder/tool'
+require 'scaffolder/tool_index'
+
+extend Scaffolder::ToolIndex
 
 Settings.use :commandline
 Settings.resolve!
 
-tool, arguments = Scaffolder::Tool.determine_tool(Settings)
+tool, arguments = determine_tool(Settings)
 tool.new(arguments).run
