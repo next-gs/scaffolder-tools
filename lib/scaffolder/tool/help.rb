@@ -14,11 +14,10 @@ class Scaffolder::Tool::Help < Scaffolder::Tool
     if tool
       raise_for_unknown(tool) unless tool_exists?(tool)
       man settings.rest.first
+    elsif @settings[:version]
+      return version
     else
-      message = String.new
-      message << version if @settings[:version]
-      message << help if @settings.keys.empty?
-      return message
+      return help
     end
   end
 

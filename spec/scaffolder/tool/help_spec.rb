@@ -27,6 +27,7 @@ describe Scaffolder::Tool::Help do
 
     subject do
       @settings[:version] = true
+      @settings[:empty_args] = true
       described_class.new(@settings)
     end
 
@@ -44,6 +45,7 @@ describe Scaffolder::Tool::Help do
   describe "execution with no command" do
 
     subject do
+      @settings[:empty_args] = true
       described_class.new(@settings)
     end
 
@@ -121,4 +123,5 @@ describe Scaffolder::Tool::Help do
     end
 
   end
+
 end

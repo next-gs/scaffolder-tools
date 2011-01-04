@@ -45,10 +45,16 @@ describe Scaffolder::BinaryHelper do
   end
 
   it "should fetch the help tool class when no arguments passed" do
-    no_args = OpenStruct.new({ :rest => [] })
+    no_args = Hash.new
+    no_args.expects(:rest).returns([])
+
+    expected = no_args.clone
+    expected[:empty_args] = true
+
     tool, args = subject.determine_tool(no_args)
-    tool.should == Scaffolder::Tool::Help
-    args.should == no_args
+
+    tool.should == @help_tool
+    args.should == expected
   end
 
   it "should fetch the help tool class when an invalid argument is passed" do
