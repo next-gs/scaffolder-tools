@@ -1,83 +1,51 @@
-require 'ostruct'
-require 'tempfile'
-require 'digest/sha1'
-require 'rubygems'
-
-require 'bio'
-
-$LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'spec'
-require 'spec/autorun'
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+require 'tempfile'
+require 'ostruct'
+
+require 'hashie'
+require 'rspec'
+require 'fakefs/safe'
 require 'mocha'
-require 'steak'
+require 'bio'
+require 'scaffolder/test/helpers'
+require 'scaffolder'
 
-require 'scaffold_validate'
-require 'scaffold_statistics'
+require 'scaffolder/tool'
+require 'scaffolder/tool_index'
+require 'scaffolder/binary_helper'
+Dir["#{File.dirname(__FILE__)}/../lib/scaffolder/tool/*.rb"].each do |f|
+  require File.expand_path(f)
+end
 
-Spec::Runner.configure do |config|
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each do |f|
+  require File.expand_path(f)
+end
 
+RSpec.configure do |config|
   config.mock_with :mocha
 
-  Sequence = Struct.new(:definition,:sequence)
+  include Scaffolder::Test::Helpers
 
-  def generate_sequences(count)
-    (1..count).to_a.map do |n|
-      Sequence.new("sequence#{n}",%w|A T G C A T G C|.sort_by{rand}.to_s)
+  def tool_subclasses
+    ObjectSpace.each_object.map{|obj| obj.class }.select do |cls|
+      cls.superclass == Scaffolder::Tool
     end
   end
 
-  def generate_unresolved(count)
-    (1..count).to_a.map do |n|
-      Sequence.new("unresolved#{n}",'NNNNN')
-    end
-  end
+  def mock_command_line_settings(scaf_file = mock, seq_file = mock, hash_args={})
+    settings = mock
 
-  def generate_scaffold(*entries)
-    entries.flatten.inject(Array.new) do |array,entry|
-      if entry.definition =~ /sequence/
-        array << {'sequence' => {'source' => entry.definition}}
-      else
-        array << {'unresolved' => {'length' => entry.sequence.length}}
-      end
-    end
-  end
+    settings.stubs(:rest).returns([scaf_file,seq_file])
+    settings.stubs(:sequence_file).returns(seq_file)
+    settings.stubs(:scaffold_file).returns(scaf_file)
 
-  def write_sequence_file(*sequences)
-    file = Tempfile.new("sequence").path
-    File.open(file,'w') do |tmp|
-      sequences.flatten.each do |sequence|
-        seq = Bio::Sequence.new(sequence.sequence)
-        tmp.print(seq.output(:fasta,:header => sequence.definition))
-      end
+    hash_args.each do |key,value|
+      settings.expects(:[]).with(key).returns(value)
     end
-    file
-  end
 
-  def write_scaffold_file(scaffold)
-    file = Tempfile.new("scaffold").path
-    File.open(file,'w'){|tmp| tmp.print(YAML.dump(scaffold))}
-    file
-  end
-
-  def scaffold2sequence(scaffold_file,sequence_file,*flags)
-    cmd = "./bin/scaffold2sequence #{flags} #{scaffold_file} #{sequence_file}"
-    s = StringIO.new(`#{cmd}`)
-    if $? == 0
-      return Bio::FlatFile.open(Bio::FastaFormat, s).first
-    else
-      raise RuntimeError.new("Error executing scaffolder2sequence\n#{s.string}")
-    end
-  end
-
-  def scaffold_validate(scaffold_file,sequence_file,*flags)
-    cmd = "./bin/scaffold-validate #{flags} #{scaffold_file} #{sequence_file}"
-    out = StringIO.new(`#{cmd}`)
-    if $? == 0
-      out.string
-    else
-      raise RuntimeError.new("Error executing scaffold-validate\n#{out.string}")
-    end
+    settings
   end
 
 end

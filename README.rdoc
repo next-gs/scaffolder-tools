@@ -1,21 +1,38 @@
-= scaffolder-tools
+== Synopsis
 
-Set of tools for manipulating sequence assemblies specified by yaml configuration files.
+A command line tool for processing genome scaffolds defined by the genome
+scaffolder API.
 
-= List of tools
+== Feature List
 
-[scaffold2sequence] Assembles scaffold outputting single fasta sequence
+* Output scaffold to fasta format.
+* Test inserts do not overlap in the scaffold.
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+== Installing
+
+Ruby and RubyGems are required to use scaffolder. Scaffolder tools is
+installed on the command line using:
+
+  $ gem install scaffolder-tools
+
+== Documentation
+
+Command line usage can be found by running the following:
+
+  $ scaffolder help
+
+A unix man page is available for each scaffolder command by typing:
+
+  $ scaffolder help COMMAND
+
+== Contact
+
+Scaffolder was developed by Michael Barton (http://www.michaelbarton.me.uk).
+Pull requests, patches and bug reports are welcome. The source code is
+available on github[http://github.com/michaelbarton/scaffolder]. Bug reports
+and feature requests should be made here.
 
 == Copyright
 
-Copyright (c) 2010 Michael Barton. See LICENSE for details.
+Scaffolder © 2010 by Michael Barton. Scaffolder is licensed under the MIT
+license. Please see the LICENSE document for more information.

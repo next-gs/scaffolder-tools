@@ -1,0 +1,28 @@
+scaffolder-validate(1) -- Test scaffold for overlapping inserts
+===============================================================
+
+## SYNOPSIS
+
+`scaffolder validate` <scaffolder-file> <sequence-file>
+
+## DESCRIPTION
+
+**Scaffolder-validate** examines the **scaffolder-file** to detect overlapping
+sequence inserts. Overlapping sequence inserts may lead to unexpected sequence
+output in generated scaffold sequence and should be avoided.  A list of any
+overlapping inserts is returned in a yaml format.
+
+## EXAMPLES
+
+    $ scaffolder-validate scaffold.yml sequences.fna > overlapping_inserts.yml
+
+## BUGS
+
+**Scaffolder-validate** is written in Ruby and depends on the scaffolder,
+BioRuby, configliere and ronn gems. See the Gemfile in the scaffolder-tools gem
+install directory for version details.
+
+## COPYRIGHT
+
+**Scaffolder** is Copyright (C) 2010 Michael Barton
+<http://michaelbarton.me.uk>

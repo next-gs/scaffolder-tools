@@ -1,49 +1,41 @@
 require 'rubygems'
+require 'bundler'
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
 require 'rake'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "scaffolder-tools"
-    gem.summary = "Tools for manipulating genome scaffolds"
-    gem.description = "Binaries to use genome scaffolds"
-    gem.email = "mail@michaelbarton.me.uk"
-    gem.homepage = "http://github.com/michaelbarton/scaffolder-tools"
-    gem.authors = ["Michael Barton"]
-    gem.add_dependency "scaffolder", "= 0.2.6"
-    gem.add_dependency "configliere", ">= 0.1.1"
-    gem.add_development_dependency "mocha", "= 0.9.8"
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    gem.add_development_dependency "yard", ">= 0"
-    gem.add_development_dependency "steak", ">= 0.3.8"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+require 'jeweler'
+Jeweler::Tasks.new do |gem|
+  gem.name = "scaffolder-tools"
+  gem.summary = "Tools for manipulating genome scaffolds"
+  gem.description = "Binary to use with scaffolder genome scaffolds"
+  gem.email = "mail@michaelbarton.me.uk"
+  gem.homepage = "http://github.com/michaelbarton/scaffolder-tools"
+  gem.authors = ["Michael Barton"]
+  gem.license = "MIT"
+end
+Jeweler::RubygemsDotOrgTasks.new
+
+require 'rspec/core'
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = FileList['spec/**/*_spec.rb']
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
+RSpec::Core::RakeTask.new(:rcov) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
   spec.rcov = true
 end
 
-task :spec => :check_dependencies
+require 'cucumber/rake/task'
+Cucumber::Rake::Task.new(:features)
 
 task :default => :spec
 
-begin
-  require 'yard'
-  YARD::Rake::YardocTask.new
-rescue LoadError
-  task :yardoc do
-    abort "YARD is not available. In order to run yardoc, you must: sudo gem install yard"
-  end
-end
+require 'yard'
+YARD::Rake::YardocTask.new

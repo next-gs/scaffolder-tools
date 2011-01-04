@@ -3,11 +3,12 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'rubygems'
 require 'configliere'
-require 'scaffold_to_sequence'
+require 'scaffolder/binary_helper'
+
+extend Scaffolder::BinaryHelper
 
 Settings.use :commandline
-Settings({:no=>{:sequence=>{:hash=>false}}})
 Settings.resolve!
 
-print Scaffold2sequence.run(ARGV,Settings)
-exit 0
+tool, arguments = determine_tool(Settings)
+tool.new(arguments).run
