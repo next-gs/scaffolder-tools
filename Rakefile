@@ -13,7 +13,7 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   gem.name = "scaffolder-tools"
   gem.summary = "Tools for manipulating genome scaffolds"
-  gem.description = "Binaries to use genome scaffolds"
+  gem.description = "Binary to use with scaffolder genome scaffolds"
   gem.email = "mail@michaelbarton.me.uk"
   gem.homepage = "http://github.com/michaelbarton/scaffolder-tools"
   gem.authors = ["Michael Barton"]
