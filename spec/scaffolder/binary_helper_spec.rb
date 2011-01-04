@@ -22,16 +22,20 @@ describe Scaffolder::BinaryHelper do
     object
   end
 
-  it "return corresponding tool subclass when requested" do
-    subject[@tool_name].should == @tool_class
-  end
+  describe "select_tool method" do
 
-  it "return the help tool when passed an unknown command" do
-    subject['unknown-tool'].should == @help_tool
-  end
+    it "should return corresponding tool subclass when requested by name" do
+      subject[@tool_name].should == @tool_class
+    end
 
-  it "return the help tool when passed nil" do
-    subject[nil].should == @help_tool
+    it "should return the help tool when passed an unknown name" do
+      subject['unknown-tool'].should == @help_tool
+    end
+
+    it "should return the help tool when passed nil" do
+      subject[nil].should == @help_tool
+    end
+
   end
 
   it "should fetch the right tool class when requested" do

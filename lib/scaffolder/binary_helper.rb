@@ -3,12 +3,10 @@ require 'scaffolder/tool_index'
 module Scaffolder::BinaryHelper
   include Scaffolder::ToolIndex
 
-  def [](type)
-    if tool_exists?(type)
-      get_tool(type)
-    else
-      Scaffolder::Tool::Help
-    end
+  DEFAULT_TOOL = Scaffolder::Tool::Help
+
+  def select_tool(name)
+    tool_exists?(name) ? get_tool(name) : DEFAULT_TOOL
   end
 
   def determine_tool(settings)
