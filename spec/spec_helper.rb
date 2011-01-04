@@ -13,6 +13,8 @@ require 'scaffolder/test/helpers'
 require 'scaffolder'
 
 require 'scaffolder/tool'
+require 'scaffolder/tool_index'
+require 'scaffolder/binary_helper'
 Dir["#{File.dirname(__FILE__)}/../lib/scaffolder/tool/*.rb"].each do |f|
   require File.expand_path(f)
 end
@@ -25,6 +27,12 @@ RSpec.configure do |config|
   config.mock_with :mocha
 
   include Scaffolder::Test::Helpers
+
+  def tool_subclasses
+    ObjectSpace.each_object.map{|obj| obj.class }.select do |cls|
+      cls.superclass == Scaffolder::Tool
+    end
+  end
 
   def mock_command_line_settings(scaf_file = mock, seq_file = mock, hash_args={})
     settings = mock

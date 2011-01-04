@@ -27,6 +27,7 @@ describe Scaffolder::Tool::Help do
 
     subject do
       @settings[:version] = true
+      @settings[:empty_args] = true
       described_class.new(@settings)
     end
 
@@ -44,6 +45,7 @@ describe Scaffolder::Tool::Help do
   describe "execution with no command" do
 
     subject do
+      @settings[:empty_args] = true
       described_class.new(@settings)
     end
 
@@ -56,9 +58,8 @@ describe Scaffolder::Tool::Help do
     end
 
     it "should contain each tool information" do
-      Scaffolder::Tool.commands.each do |command,command_class|
-        string = command.to_s.ljust(12) + command_class.description + "\n"
-        subject.execute.should include(string)
+      tool_subclasses.each do |cls|
+        subject.execute.should include(cls.description)
       end
     end
 
@@ -67,7 +68,7 @@ describe Scaffolder::Tool::Help do
   describe "execution with an invalid command arguments" do
 
     subject do
-      @settings[:unknown_command] = 'unknown_command'
+      @settings[:unknown_tool] = 'unknown_command'
       described_class.new(@settings)
     end
 
@@ -81,7 +82,7 @@ describe Scaffolder::Tool::Help do
   describe "execution with the name of a scaffolder tool command" do
 
     before(:each) do
-      @tool = Class.new(described_class)
+      @tool = Class.new(Scaffolder::Tool)
       described_class.superclass.const_set('Fake',@tool)
 
       @man_dir = File.join(%W|#{File.dirname(__FILE__)} .. .. .. man| )
@@ -98,14 +99,12 @@ describe Scaffolder::Tool::Help do
     end
 
     it "should not raise an error" do
-      Kernel.stubs(:system).
-        with("ronn -m #{File.expand_path(@fake_man)}")
+      Kernel.stubs(:system).with("ronn -m #{File.expand_path(@fake_man)}")
       lambda{ subject.execute }.should_not raise_error
     end
 
     it "should call ronn on the command line with the man file location" do
-      Kernel.expects(:system).
-        with("ronn -m #{File.expand_path(@fake_man)}")
+      Kernel.expects(:system).with("ronn -m #{File.expand_path(@fake_man)}")
       subject.execute
     end
 
@@ -124,4 +123,5 @@ describe Scaffolder::Tool::Help do
     end
 
   end
+
 end
