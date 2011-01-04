@@ -51,7 +51,7 @@ Gem::Specification.new do |s|
     "spec/spec_helper.rb",
     "spec/support/exit_code_matcher.rb"
   ]
-  s.homepage = %q{http://github.com/michaelbarton/scaffolder-tools}
+  s.homepage = %q{http://www.michaelbarton.me.uk/projects/scaffolder/}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
