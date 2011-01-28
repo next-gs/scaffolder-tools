@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{scaffolder-tools}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Barton"]
-  s.date = %q{2011-01-04}
+  s.date = %q{2011-01-28}
   s.default_executable = %q{scaffolder}
   s.description = %q{Binary to use with scaffolder genome scaffolds}
   s.email = %q{mail@michaelbarton.me.uk}
