@@ -21,9 +21,9 @@ Feature: Command line help for scaffolder
   Scenario: Running scaffolder with the version argument
     When I call "scaffolder" with arguments "--version"
     Then the exit status should be 0
-    And the stdout should contain exactly:
+    And the output should match:
     """
-    scaffolder tool version 0.1.0
+    scaffolder tool version \d.\d.\d
 
     """
 
