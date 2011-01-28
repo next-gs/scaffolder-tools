@@ -17,9 +17,7 @@ class Scaffolder::Tool::Sequence < Scaffolder::Tool
   private
 
   def sequence(scaffold)
-    sequence = scaffold.inject(String.new) do |string,entry|
-      string << entry.sequence
-    end
+    scaffold.map{|entry| entry.sequence}.join
   end
 
   def header(sequence,opts={})
