@@ -1,0 +1,124 @@
+scaffolder-format(7) -- scaffolder authoring format using YAML
+==============================================================
+
+## SYNOPSIS
+
+Construct genome scaffolds using text written in YAML format. An example
+scaffold with three entries is as follows:
+
+    ---
+      -
+        sequence:
+          source: 'sequence1'
+      -
+        unresolved:
+          length: 20
+      -
+        sequence:
+          source: 'sequence2'
+          start: 3
+          stop: 100
+          reverse: true
+          inserts:
+          -
+            source: 'insert1'
+            open: 5
+            close: 20
+
+## DESCRIPTION
+
+Scaffold files are written using the YAML format.
+
+## SCAFFOLD ENTRY TYPES
+
+The three sequence entry scaffold types used in the scaffold are outlined as
+follows.
+
+### SEQUENCE
+
+These are the bread and butter of the scaffold. These are used to insert
+sequences from a fasta file into the scaffold. The `sequence` tag is used to
+specify a sequence entry in the scaffold. The following tags can be used in
+a sequence entry:
+
+  * `source:` <sequence-name>:
+    **Required.** Specify the sequence to insert into the scaffold. The
+    value <sequence-name> should match the first space delimited word from the
+    fasta header of the required sequence.
+
+  * `reverse:` <true|false>:
+    **Optional.** Specify whether sequence should be reverse completed in the
+    scaffold. Default value is false.
+
+  * `start:` <trim-position>:
+    **Optional.** Specify if the sequence should be trimmed from the start
+    position into the sequence. Used to remove extra sequence from the
+    start. Default value is 1 and no sequence is removed.
+
+  * `stop:` <trim-position>:
+    **Optional.** Specify if the sequence should be trimmed from the end of
+    the sequence. Used to remove extra sequence from the end. Sequence
+    onward of trim position is removed. Default value is the length of the
+    fasta sequence and therefore no sequence is removed.
+
+  * `inserts:` <insert-list>:
+    **Optional.** Specify if additional insert sequences should be used to add
+    or replace sequence in this entry. Inserts are specified as a YAML list.
+    Default value is an empty array. See [INSERTS][] for details of defining an
+    insert sequence.
+
+### UNRESOLVED
+
+Unresolved regions add sequences of N nucleotide characters to the scaffold.
+They are used to define gaps in the scaffold and join separate sequence
+sequence regions together. Unresolved regions are specified using the
+`unresolved` tag in the entry list. A single attribute tag is used to specify
+the length of an unresolved region.
+
+  * `length:` <length>:
+    **Required.** Specify the length of the unresolved region to add to the
+    scaffold.
+
+### INSERTS
+
+Insert sequences are used to replace regions in encoding [SEQUENCE][] entries.
+Each insert should correspond to an entry in the scaffold file. Inserts share
+the sequence editing tags as [SEQUENCE][] entries but define two additional
+`open` and `close` coordinates for specifying where the insert should be added.
+Multiple inserts can be added as a list to the encoding sequence entry using
+the `inserts` attribute tag. The following tags can be used in an insert entry.
+
+  * `source:` <sequence-name>:
+    **Required.** Specify the insert sequence to use. The value <sequence-name>
+    should match the first space delimited word from the fasta header of the
+    required sequence.
+
+  * `reverse:` <true|false>:
+    **Optional.** Specify whether the insert should be reverse complemented.
+    Default value is false.
+
+  * `start:` <trim-position>:
+    **Optional.** Specify if the insert should be trimmed from the start
+    position. Used to remove extra sequence from the start. Default value
+    is 1 and no sequence is removed.
+
+  * `stop:` <trim-position>:
+    **Optional.** Specify if the insert should be trimmed from the end of the
+    sequence. Used to remove extra sequence from the end. Sequence onward
+    of trim position is removed. Default value is the length of the fasta
+    sequence and therefore no sequence is removed.
+
+  * `open:` <insert-start-coordinate>:
+    **Optional if close coordinate is specified.** Specify the start coordinate
+    where the insert is added to the encoding sequence. Default value is close
+    coordinate position minus the length of the insert sequence.
+
+  * `close:` <insert-close-coordinate>:
+    **Optional if open coordinate is specified.** Specify the end coordinate
+    position for adding the insert to the encoding sequence. Default value is
+    open coordinate position plus the length of the insert sequence.
+
+## COPYRIGHT
+
+**Scaffolder** is Copyright (C) 2010 Michael Barton
+<http://michaelbarton.me.uk>
