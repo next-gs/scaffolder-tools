@@ -19,13 +19,6 @@ module Scaffolder::ToolIndex
     end
   end
 
-  def determine_tool(settings)
-    type = settings.rest.shift
-    tool_class = self[type]
-    settings[:unknown_tool] = type unless (tool_exists?(type) or type.nil?)
-    [tool_class,settings]
-  end
-
   private
 
   def tool_classes
