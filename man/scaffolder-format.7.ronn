@@ -4,9 +4,8 @@ scaffolder-format(7) -- scaffolder authoring format using YAML
 ## SYNOPSIS
 
 The scaffolder software allows the construction of genome scaffolds using text
-files written in the YAML format. This man pages outlines the format for
-specify the scaffold file. An example scaffold file with three entries is as
-follows:
+files written in the YAML format. An example scaffold file with three entries
+is as follows:
 
     ---
     -
@@ -30,54 +29,55 @@ follows:
 ## DESCRIPTION
 
 Scaffold files are written using the YAML format. The scaffold file along with
-the fasta file of corresponding sequences is used by the scaffolder software to
-generate the scaffold super sequence.
+the fasta file for the corresponding nucleotide sequences is used by the
+scaffolder software to generate the scaffold super sequence.
 
 The scaffold file should begin with three dashes `---`. This identifies the
 start of a YAML formatted document. The scaffold file is composed of a list of
-entries where each the sequence for all the entries are joined together to
-create the scaffold super sequence. Each entry should should have a '-' dash
-line to indicate the start of a new entry. The first line of the entry should
-define the type of entry. The entry types are outlined in the section below.
+entries where the sequence for each entries is joined together to create the
+scaffold sequence. Each scaffold entry should should have a '-' dash line to
+indicate the start of the entry. The first line of the entry should define the
+type of entry. The entry types allowed are outlined in the section below.
 
 ## SCAFFOLD ENTRY TYPES
 
 ### SEQUENCE
 
-These should be the main component of the scaffold and are used to insert
-sequences from a fasta file into the scaffold. The `sequence` tag is used to
-specify a sequence entry in the scaffold. The following tags can be used to
-modify how the sequence is inserted into the scaffold:
+Sequence entries are the main component of the scaffold and insert the
+nucleotide sequences from the fasta file into the scaffold. The `sequence` tag
+is used to specify a sequence entry in the scaffold. The following tags can be
+used to modify how the sequence is inserted into the scaffold:
 
   * `source:` <sequence-name>:
-    **Required.** Specify the sequence to insert into the scaffold. The
-    value <sequence-name> should match the first space delimited word from the
-    fasta header of the required sequence.
+    **Required.** Specify the source nucleotide sequence to insert into the
+    scaffold. The value <sequence-name> should match the first space delimited
+    word from the fasta header of the required sequence.
 
   * `reverse:` <true|false>:
     **Optional.** Specify whether sequence should be reverse completed in the
     scaffold. Default value is false.
 
   * `start:` <trim-position>:
-    **Optional.** Specify if the sequence should be trimmed from the start
-    position. Default value is 1 where no sequence is removed.
+    **Optional.** Specify if the sequence should be trimmed from the start to
+    the specified coordinate position. Default value is 1 where no sequence is
+    removed.
 
   * `stop:` <trim-position>:
     **Optional.** Specify if the sequence should be trimmed from the end of the
-    sequence. Sequence onward of trim position is removed. Default value is the
-    length of the fasta sequence where no sequence is removed.
+    sequence. Sequence onward of specified trim position is removed. Default
+    value is the length of the fasta sequence where no sequence is removed.
 
   * `inserts:` <insert-list>:
-    **Optional.** Specify if additional insert sequences should be add to
-    replace regions in this sequence.
+    **Optional.** Specify if additional insert sequences should be added to
+    replace regions in this sequence. Should be specified as a list of YAML
+    formatted [INSERT][] entries. Default value is an empty list.
 
 ### UNRESOLVED
 
 Unresolved regions add sequences of N nucleotide characters to the scaffold.
-They are used to define gaps in the scaffold and join separate sequence
-sequence regions together. Unresolved regions are specified using the
-`unresolved` tag. A single attribute tag is used to specify the length of an
-unresolved region.
+They define gaps in the scaffold and join separate sequence sequence regions
+together. Unresolved regions are specified using the `unresolved` tag. A single
+attribute tag is used to specify the length of an unresolved region.
 
   * `length:` <length>:
     **Required.** Specify the length of the unresolved region to add to the
@@ -88,7 +88,7 @@ unresolved region.
 Insert sequences are used to replace regions in encoding [SEQUENCE][] entries.
 Each insert should correspond to a sequence in the fasta file. Inserts share
 the same attributes tags as [SEQUENCE][] entries but define two additional
-`open` and `close` attributes. These specifying where the insert should be
+`open` and `close` attribute tags. These specify where the insert should be
 added to the encoding sequence. Multiple inserts can be added as a list to the
 encoding sequence entry using the `inserts` attribute tag. The following
 attribute tags can be to modify how an insert is added to the scaffold.
@@ -103,8 +103,8 @@ attribute tags can be to modify how an insert is added to the scaffold.
     Default value is false.
 
   * `start:` <trim-position>:
-    **Optional.** Specify if the insert should be trimmed from the start
-    position. Default value is 1 where no sequence is removed.
+    **Optional.** Specify if the insert should be trimmed from the start to the
+    specified trim position. Default value is 1 where no sequence is removed.
 
   * `stop:` <trim-position>:
     **Optional.** Specify if the insert should be trimmed from the end of the
