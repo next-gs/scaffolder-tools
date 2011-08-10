@@ -49,6 +49,7 @@ Feature: Command line help for scaffolder
       help        Help information for scaffolder commands
       sequence    Generate the fasta output for the scaffold
       validate    Validate scaffold for overlapping inserts
+      format      Show the options for writing the scaffold file
 
     """
 
@@ -66,6 +67,11 @@ Feature: Command line help for scaffolder
     When I call "scaffolder" with arguments "help help"
     Then the exit status should be 0
     And the stdout should contain "SCAFFOLDER-HELP(1)"
+
+  Scenario: Fetching the man page for help
+    When I call "scaffolder" with arguments "help format"
+    Then the exit status should be 0
+    And the stdout should contain "SCAFFOLDER-FORMAT(7)"
 
   Scenario: Fetching the man page for an incorrect command
     When I call "scaffolder" with arguments "help unknown-command"
