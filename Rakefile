@@ -14,8 +14,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "scaffolder-tools"
   gem.summary = "Tools for manipulating genome scaffolds"
   gem.description = "Binary to use with scaffolder genome scaffolds"
-  gem.email = "mail@michaelbarton.me.uk"
-  gem.homepage = "http://www.michaelbarton.me.uk/projects/scaffolder/"
+  gem.email = "mail@next.gs"
+  gem.homepage = "http://next.gs"
   gem.authors = ["Michael Barton"]
   gem.license = "MIT"
 end
