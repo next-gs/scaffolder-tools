@@ -27,11 +27,12 @@ A unix man page is available for each scaffolder command by typing:
 
 == Contact
 
-The website for scaffolder is at http://next.gs and a {twitter feed for
-updates}[http://twitter.com/nxtgs]. There is a {Google
+Scaffolder was developed by Michael Barton (www.michaelbarton.me.uk). The
+website for scaffolder is at http://next.gs and a {twitter feed for
+updates}[http://twitter.com/nxtgs] is available. There is a {Google
 group}[http://groups.google.com/group/scaffolder] for questions and comments.
-Pull requests, patches and bug reports are welcome through
-github[http://github.com/michaelbarton/scaffolder].
+The source code is available on github[http://github.com/scaffolder]. Bug
+reports and feature requests may also be made there.
 
 == Copyright
 
