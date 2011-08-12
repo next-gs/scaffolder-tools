@@ -17,7 +17,7 @@ describe Scaffolder::Tool::Sequence do
       contig = Sequence.new(:name => 'seq1', :sequence => 'ATGC')
       scf_file, seq_file = generate_scaffold_files([contig])
 
-      settings = mock_command_line_settings(scf_file.path,seq_file.path,
+      settings = MockSettings.new(scf_file.path,seq_file.path,
         {:definition => nil,:no => nil})
 
       @tool = described_class.new(settings)

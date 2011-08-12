@@ -63,7 +63,7 @@ describe Scaffolder::Tool::Validate do
     end
 
     subject do
-      described_class.new(mock_command_line_settings)
+      described_class.new(MockSettings.new)
     end
 
     it "should return an empty array when scaffold is valid" do
@@ -87,7 +87,7 @@ describe Scaffolder::Tool::Validate do
   describe "scaffold validation with no overlapping inserts" do
 
     subject do
-      validate = described_class.new(mock_command_line_settings)
+      validate = described_class.new(MockSettings.new)
       validate.stubs(:errors).returns([])
       validate
     end
@@ -105,7 +105,7 @@ describe Scaffolder::Tool::Validate do
   describe "returning errors using the errors method" do
 
     subject do
-      validate = described_class.new(mock_command_line_settings)
+      validate = described_class.new(MockSettings.new)
 
       sequence = stub(:source => :seq1)
       validate.stubs(:errors).returns([sequence])
@@ -133,7 +133,7 @@ describe Scaffolder::Tool::Validate do
   describe "the attributes of the error data" do
 
     subject do
-      validate = described_class.new(mock_command_line_settings)
+      validate = described_class.new(MockSettings.new)
       @err = {:open => 1,:close => 2,:source => 'some_insert'}
 
       sequence = stub(:source => 'seq1')
