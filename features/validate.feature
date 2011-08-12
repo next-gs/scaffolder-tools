@@ -171,16 +171,16 @@ Feature: The scaffolder-validate binary
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
-    --- 
-    - sequence-insert-overlap: 
-        inserts: 
+    ---
+    - sequence-insert-overlap:
+        source: seq
+        inserts:
         - open: 2
           close: 4
           source: ins1
         - open: 3
           close: 5
           source: ins2
-        source: seq
 
     """
 
@@ -222,24 +222,24 @@ Feature: The scaffolder-validate binary
     Then the exit status should be 0
     And the stdout should contain exactly:
     """
-    --- 
-    - sequence-insert-overlap: 
-        inserts: 
+    ---
+    - sequence-insert-overlap:
+        source: seq
+        inserts:
         - open: 2
           close: 4
           source: ins1
         - open: 3
           close: 5
           source: ins2
+    - sequence-insert-overlap:
         source: seq
-    - sequence-insert-overlap: 
-        inserts: 
+        inserts:
         - open: 6
           close: 8
           source: ins1
         - open: 7
           close: 9
           source: ins2
-        source: seq
 
     """
