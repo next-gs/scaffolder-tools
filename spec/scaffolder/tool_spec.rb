@@ -119,21 +119,12 @@ describe Scaffolder::Tool do
   describe "creating the scaffold with the scaffold method" do
 
     before(:each) do
-      entries = [{:name => 'seq1', :nucleotides => 'ATGC'}]
-
-      @scaffold_file = File.new('scaffold','w').path
-      @sequence_file = File.new('sequence','w').path
-      write_scaffold_file(entries,@scaffold_file)
-      write_sequence_file(entries,@sequence_file)
-    end
-
-    after(:each) do
-      File.delete @scaffold_file, @sequence_file
+      contig = Sequence.new(:name => 'seq1', :sequence => 'ATGC')
+      @scf_file, @seq_file = generate_scaffold_files([contig])
     end
 
     subject do
-      Scaffolder::Tool.new(
-        mock_command_line_settings(@scaffold_file,@sequence_file))
+      Scaffolder::Tool.new(mock_command_line_settings(@scf_file.path,@seq_file.path))
     end
 
     it "should produce the expected sequence scaffold" do

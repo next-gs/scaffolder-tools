@@ -25,6 +25,7 @@ end
 RSpec.configure do |config|
   config.mock_with :mocha
 
+  include Scaffolder::Test
   include Scaffolder::Test::Helpers
 
   def tool_subclasses

@@ -14,26 +14,21 @@ describe Scaffolder::Tool::Sequence do
   describe "execution when correctly instantiated" do
 
     before(:each) do
-      entries = [{:name => 'seq1', :nucleotides => 'ATGC'}]
+      contig = Sequence.new(:name => 'seq1', :sequence => 'ATGC')
+      scf_file, seq_file = generate_scaffold_files([contig])
 
-      @scaffold_file = File.new("scaffold",'w').path
-      @sequence_file = File.new("sequence",'w').path
+      settings = mock_command_line_settings(scf_file.path,seq_file.path,
+        {:definition => nil,:no => nil})
 
-      write_scaffold_file(entries,@scaffold_file)
-      write_sequence_file(entries,@sequence_file)
-      settings = mock_command_line_settings(@scaffold_file,@sequence_file,{
-        :definition => nil,:no => nil})
-
-      tool = described_class.new(settings)
-      @output = StringIO.new(tool.execute)
+      @tool = described_class.new(settings)
     end
 
-    after(:each) do
-      File.delete @scaffold_file, @sequence_file
+    subject do
+      StringIO.new(@tool.execute)
     end
 
     it "should return the expected sequence" do
-      Bio::FlatFile.auto(@output).first.seq.should == 'ATGC'
+      Bio::FlatFile.auto(subject).first.seq.should == 'ATGC'
     end
 
   end
