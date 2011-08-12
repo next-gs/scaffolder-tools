@@ -22,7 +22,7 @@ class Scaffolder::Tool::Sequence < Scaffolder::Tool
 
   def header(sequence,opts={})
     header = String.new
-    header << opts[:definition] + " " if opts[:definition]
+    header << opts[:definition] if opts[:definition]
     header
   end
 

@@ -19,13 +19,29 @@ describe Scaffolder::Tool::Sequence do
     end
 
     subject do
-      Bio::FlatFile.auto(
+      Bio::FastaFormat.new(
         StringIO.new(
           described_class.new(
             MockSettings.new(
               @scf_file.path,
               @seq_file.path,
-              settings)).execute)).first
+              settings)).execute).string)
+    end
+
+    describe "empty" do
+
+      let(:settings) do
+        {}
+      end
+
+      it "should set the fasta definition" do
+        subject.definition.should == ""
+      end
+
+      it "should return the expected sequence" do
+        subject.seq.should == 'ATGC'
+      end
+
     end
 
     describe "--definition" do
