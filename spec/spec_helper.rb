@@ -34,18 +34,24 @@ RSpec.configure do |config|
     end
   end
 
-  def mock_command_line_settings(scaf_file = mock, seq_file = mock, hash_args={})
-    settings = mock
+  class MockSettings
 
-    settings.stubs(:rest).returns([scaf_file,seq_file])
-    settings.stubs(:sequence_file).returns(seq_file)
-    settings.stubs(:scaffold_file).returns(scaf_file)
+    attr :scaf_file
+    attr :seq_file
 
-    hash_args.each do |key,value|
-      settings.expects(:[]).with(key).returns(value)
+    def initialize(scaf_file = nil, seq_file = nil, command_args = {})
+      @scaf_file, @seq_file, = scaf_file, seq_file
+      @args = command_args
     end
 
-    settings
+    def rest
+      [scaf_file,seq_file]
+    end
+
+    def [](arg)
+      @args[arg]
+    end
+
   end
 
 end

@@ -11,24 +11,68 @@ describe Scaffolder::Tool::Sequence do
     described_class.description.should == desc
   end
 
-  describe "execution when correctly instantiated" do
+  describe "command line argument" do
 
-    before(:each) do
-      contig = Sequence.new(:name => 'seq1', :sequence => 'ATGC')
-      scf_file, seq_file = generate_scaffold_files([contig])
-
-      settings = mock_command_line_settings(scf_file.path,seq_file.path,
-        {:definition => nil,:no => nil})
-
-      @tool = described_class.new(settings)
+    before do
+      cntg = Sequence.new(:name => 'seq1', :sequence => 'ATGC')
+      @scf_file, @seq_file = generate_scaffold_files([cntg])
     end
 
     subject do
-      StringIO.new(@tool.execute)
+      Bio::FastaFormat.new(
+        StringIO.new(
+          described_class.new(
+            MockSettings.new(
+              @scf_file.path,
+              @seq_file.path,
+              settings)).execute).string)
     end
 
-    it "should return the expected sequence" do
-      Bio::FlatFile.auto(subject).first.seq.should == 'ATGC'
+    describe "empty" do
+
+      let(:settings) do
+        {}
+      end
+
+      it "should set the fasta definition" do
+        subject.definition.should == ""
+      end
+
+      it "should return the expected sequence" do
+        subject.seq.should == 'ATGC'
+      end
+
+    end
+
+    describe "--definition" do
+
+      let(:settings) do
+        {:definition => 'name'}
+      end
+
+      it "should set the fasta definition" do
+        subject.definition.should == "name"
+      end
+
+      it "should return the expected sequence" do
+        subject.seq.should == 'ATGC'
+      end
+
+    end
+
+    describe "--with-sequence-digest" do
+      let(:settings) do
+        {:"with-sequence-digest" => true}
+      end
+
+      it "should set the fasta definition" do
+        header = "[sha1=627a3d8eb465be91696114803b3410ca92f59cc7]"
+        subject.definition.should == header
+      end
+
+      it "should return the expected sequence" do
+        subject.seq.should == 'ATGC'
+      end
     end
 
   end
