@@ -4,7 +4,6 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'tempfile'
 require 'ostruct'
 
-require 'hashie'
 require 'rspec'
 require 'fakefs/safe'
 require 'mocha'
