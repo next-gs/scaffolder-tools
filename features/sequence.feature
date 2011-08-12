@@ -18,7 +18,12 @@ Feature: The scaffolder-sequence binary
       """
     When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain "ATGGC"
+    And the stdout should contain exactly:
+      """
+      > 
+      ATGGC
+
+      """
 
   Scenario: Using the definition argument before the file arguments
     Given a file named "sequence.fna" with:
@@ -35,8 +40,12 @@ Feature: The scaffolder-sequence binary
       """
     When I call "scaffolder" with arguments "sequence --definition='name' scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain "ATGGC"
-    And the stdout should contain ">name"
+    And the stdout should contain exactly:
+      """
+      >name
+      ATGGC
+
+      """
 
   Scenario: Using the definition argument after the file arguments
     Given a file named "sequence.fna" with:
@@ -53,10 +62,14 @@ Feature: The scaffolder-sequence binary
       """
     When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --definition='name'"
     Then the exit status should be 0
-    And the stdout should contain "ATGGC"
-    And the stdout should contain ">name"
+    And the stdout should contain exactly:
+      """
+      >name
+      ATGGC
 
-  Scenario: Using the argument --no-sequence-hash
+      """
+
+  Scenario: Using the argument --with-sequence-digest
     Given a file named "sequence.fna" with:
       """
       >seq
@@ -69,11 +82,16 @@ Feature: The scaffolder-sequence binary
           sequence:
             source: "seq"
       """
-    When I call "scaffolder" with arguments "sequence --no-sequence-hash scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence --with-sequence-digest scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain ">\nATGGC"
+    And the stdout should contain exactly:
+      """
+      > [sha1=32848c64b5bac47e23002c989a9d1bf3d21b8f92]
+      ATGGC
 
-  Scenario: Using the arguments --no-sequence-hash and --definition
+      """
+
+  Scenario: Using the arguments --with-sequence-digest and --definition
     Given a file named "sequence.fna" with:
       """
       >seq
@@ -86,6 +104,11 @@ Feature: The scaffolder-sequence binary
           sequence:
             source: "seq"
       """
-      When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --no-sequence-hash --definition='name'"
+      When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --with-sequence-digest --definition='name'"
     Then the exit status should be 0
-    And the stdout should contain ">name \nATGGC"
+    And the stdout should contain exactly:
+      """
+      >name [sha1=32848c64b5bac47e23002c989a9d1bf3d21b8f92]
+      ATGGC
+
+      """
