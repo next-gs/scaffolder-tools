@@ -23,9 +23,6 @@ class Scaffolder::Tool::Sequence < Scaffolder::Tool
   def header(sequence,opts={})
     header = String.new
     header << opts[:definition] + " " if opts[:definition]
-    unless opts[:no] && opts[:no][:sequence] && opts[:no][:sequence][:hash]
-      header << Digest::SHA1.hexdigest(sequence)
-    end
     header
   end
 
