@@ -20,7 +20,7 @@ Feature: The scaffolder-sequence binary
     Then the exit status should be 0
     And the stdout should contain exactly:
       """
-      > 
+      >
       ATGGC
 
       """
@@ -86,7 +86,7 @@ Feature: The scaffolder-sequence binary
     Then the exit status should be 0
     And the stdout should contain exactly:
       """
-      > [sha1=32848c64b5bac47e23002c989a9d1bf3d21b8f92]
+      >[sha1=32848c64b5bac47e23002c989a9d1bf3d21b8f92]
       ATGGC
 
       """

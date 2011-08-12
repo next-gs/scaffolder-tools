@@ -14,8 +14,8 @@ describe Scaffolder::Tool::Sequence do
   describe "command line argument" do
 
     before do
-      contig = Sequence.new(:name => 'seq1', :sequence => 'ATGC')
-      @scf_file, @seq_file = generate_scaffold_files([contig])
+      cntg = Sequence.new(:name => 'seq1', :sequence => 'ATGC')
+      @scf_file, @seq_file = generate_scaffold_files([cntg])
     end
 
     subject do
@@ -58,6 +58,21 @@ describe Scaffolder::Tool::Sequence do
         subject.seq.should == 'ATGC'
       end
 
+    end
+
+    describe "--with-sequence-digest" do
+      let(:settings) do
+        {:"with-sequence-digest" => true}
+      end
+
+      it "should set the fasta definition" do
+        header = "[sha1=627a3d8eb465be91696114803b3410ca92f59cc7]"
+        subject.definition.should == header
+      end
+
+      it "should return the expected sequence" do
+        subject.seq.should == 'ATGC'
+      end
     end
 
   end

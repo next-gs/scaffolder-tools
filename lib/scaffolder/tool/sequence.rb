@@ -21,9 +21,16 @@ class Scaffolder::Tool::Sequence < Scaffolder::Tool
   end
 
   def header(sequence,opts={})
-    header = String.new
+    header = Array.new
     header << opts[:definition] if opts[:definition]
-    header
+    if opts[:'with-sequence-digest']
+      digest = Digest::SHA1.hexdigest(sequence)
+      header << "[sha1=#{digest}]"
+    end
+
+
+
+    header * ' '
   end
 
 end
