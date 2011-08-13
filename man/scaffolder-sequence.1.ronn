@@ -23,9 +23,9 @@ each contig specified in the scaffold file.
     Fasta definition line added at the top of the assembled sequence. The
     default is to use the SHA1 hash of the sequence as the definition.
 
-  * `--no-sequence-hash`:
-    Do not append the SHA1 hash of the assembled sequence to the definition
-    line.
+  * `--with-sequence-digest`:
+     Add an SHA1 digest of the assembled sequence to the definition line. This
+     may be useful for comparing large scaffold assemblies for identity.
 
 ## EXAMPLES
 

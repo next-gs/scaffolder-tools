@@ -18,73 +18,12 @@ Feature: The scaffolder-sequence binary
       """
     When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain "ATGGC"
-
-  Scenario: The sequence file specified does not exist
-    Given a file named "scaffold.yml" with:
+    And the stdout should contain exactly:
       """
-      ---
-        -
-          sequence:
-            source: "seq"
-      """
-    When I call "scaffolder" with arguments "sequence scaffold.yml missing_file"
-    Then the exit status should be 1
-    And the stderr should contain "Error. Sequence file not found:"
-
-  Scenario: The sequence file doesn't contain any thing
-    Given an empty file named "sequence.fna"
-    Given a file named "scaffold.yml" with:
-      """
-      ---
-        -
-          sequence:
-            source: "seq1"
-      """
-    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
-    Then the exit status should be 1
-    And the stderr should contain "Error. Sequence file is empty"
-
-  Scenario: The scaffold file specified does not exist
-    Given a file named "sequence.fna" with:
-      """
-      >seq
+      >
       ATGGC
-      """
-    When I call "scaffolder" with arguments "sequence missing_file sequence.fna"
-    Then the exit status should be 1
-    And the stderr should contain "Error. Scaffold file not found:"
 
-  Scenario: The scaffold file doesn't contain anything
-    Given an empty file named "scaffold.yml"
-    Given a file named "sequence.fna" with:
       """
-      >seq
-      ATGGC
-      """
-    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
-    Then the exit status should be 1
-    And the stderr should contain "Error. Scaffold file is empty"
-
-  Scenario: One of the sequences specified in the scaffold is missing
-    Given a file named "sequence.fna" with:
-      """
-      >seq1
-      ATGGC
-      """
-    Given a file named "scaffold.yml" with:
-      """
-      ---
-        -
-          sequence:
-            source: "seq1"
-        -
-          sequence:
-            source: "seq2"
-      """
-    When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna"
-    Then the exit status should be 1
-    And the stderr should contain "Error. Unknown sequence: seq2"
 
   Scenario: Using the definition argument before the file arguments
     Given a file named "sequence.fna" with:
@@ -101,8 +40,12 @@ Feature: The scaffolder-sequence binary
       """
     When I call "scaffolder" with arguments "sequence --definition='name' scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain "ATGGC"
-    And the stdout should contain ">name"
+    And the stdout should contain exactly:
+      """
+      >name
+      ATGGC
+
+      """
 
   Scenario: Using the definition argument after the file arguments
     Given a file named "sequence.fna" with:
@@ -119,10 +62,14 @@ Feature: The scaffolder-sequence binary
       """
     When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --definition='name'"
     Then the exit status should be 0
-    And the stdout should contain "ATGGC"
-    And the stdout should contain ">name"
+    And the stdout should contain exactly:
+      """
+      >name
+      ATGGC
 
-  Scenario: Using the argument --no-sequence-hash
+      """
+
+  Scenario: Using the argument --with-sequence-digest
     Given a file named "sequence.fna" with:
       """
       >seq
@@ -135,11 +82,16 @@ Feature: The scaffolder-sequence binary
           sequence:
             source: "seq"
       """
-    When I call "scaffolder" with arguments "sequence --no-sequence-hash scaffold.yml sequence.fna"
+    When I call "scaffolder" with arguments "sequence --with-sequence-digest scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain ">\nATGGC"
+    And the stdout should contain exactly:
+      """
+      >[sha1=32848c64b5bac47e23002c989a9d1bf3d21b8f92]
+      ATGGC
 
-  Scenario: Using the arguments --no-sequence-hash and --definition
+      """
+
+  Scenario: Using the arguments --with-sequence-digest and --definition
     Given a file named "sequence.fna" with:
       """
       >seq
@@ -152,6 +104,11 @@ Feature: The scaffolder-sequence binary
           sequence:
             source: "seq"
       """
-      When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --no-sequence-hash --definition='name'"
+      When I call "scaffolder" with arguments "sequence scaffold.yml sequence.fna --with-sequence-digest --definition='name'"
     Then the exit status should be 0
-    And the stdout should contain ">name \nATGGC"
+    And the stdout should contain exactly:
+      """
+      >name [sha1=32848c64b5bac47e23002c989a9d1bf3d21b8f92]
+      ATGGC
+
+      """
