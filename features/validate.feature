@@ -103,7 +103,7 @@ Feature: The scaffolder-validate binary
       """
     When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain exactly:
+    And the stdout yaml should contain exactly:
     """
     ---
     - sequence-insert-overlap:
@@ -154,7 +154,7 @@ Feature: The scaffolder-validate binary
       """
     When I call "scaffolder" with arguments "validate scaffold.yml sequence.fna"
     Then the exit status should be 0
-    And the stdout should contain exactly:
+    And the stdout yaml should contain exactly:
     """
     ---
     - sequence-insert-overlap:
