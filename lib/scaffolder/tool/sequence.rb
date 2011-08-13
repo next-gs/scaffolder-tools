@@ -17,18 +17,20 @@ class Scaffolder::Tool::Sequence < Scaffolder::Tool
   private
 
   def sequence(scaffold)
-    sequence = scaffold.inject(String.new) do |string,entry|
-      string << entry.sequence
-    end
+    scaffold.map{|entry| entry.sequence}.join
   end
 
   def header(sequence,opts={})
-    header = String.new
-    header << opts[:definition] + " " if opts[:definition]
-    unless opts[:no] && opts[:no][:sequence] && opts[:no][:sequence][:hash]
-      header << Digest::SHA1.hexdigest(sequence)
+    header = Array.new
+    header << opts[:definition] if opts[:definition]
+    if opts[:'with-sequence-digest']
+      digest = Digest::SHA1.hexdigest(sequence)
+      header << "[sha1=#{digest}]"
     end
-    header
+
+
+
+    header * ' '
   end
 
 end

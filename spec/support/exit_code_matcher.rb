@@ -21,6 +21,6 @@ module ExitCodeMatchers
     end
     description do
       "expect block to call exit(#{code})"
-    end    
-  end  
+    end
+  end
 end
