@@ -18,6 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://next.gs"
   gem.authors = ["Michael Barton"]
   gem.license = "MIT"
+  gem.test_files = Dir['spec/**/*.rb']
 end
 Jeweler::RubygemsDotOrgTasks.new
 
